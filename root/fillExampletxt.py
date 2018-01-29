@@ -5,8 +5,8 @@ import pickle
 myfile = open("example.txt", "w")
 
 #does work for larger values but takes a long time to plot
-xsize=500
-ysize=100
+xsize=150
+ysize=200
 
 #initialise array of random numbers
 array = 20*np.random.rand(xsize,ysize)-10
