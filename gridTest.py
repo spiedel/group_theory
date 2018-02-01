@@ -1,4 +1,4 @@
-from ROOT import gSystem, gROOT
+from ROOT import gROOT, gSystem
 
 #load header file
 gROOT.LoadMacro("ExampleGrid.h")
@@ -7,14 +7,16 @@ gROOT.LoadMacro("ExampleGrid.h")
 from ROOT import Grid
 
 #define a new grid
-mygrid = Grid(10,15,0.1,0.2)
+mygrid = Grid(5,10,0.1,0.2)
 
-#evaluate one point
-mygrid[6][4]=4
+#evaluate points
+mygrid[2][1]=4
+mygrid[7][4]=2
 
 #probably the wrong way round in x and y, but prints grid
 for i in xrange(10):
-    for j in xrange(15):
+    for j in xrange(5):
         print "%d " % mygrid[i][j],
     print
 
+del mygrid
