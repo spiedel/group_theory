@@ -10,14 +10,14 @@ import os
 
 
 #load grid header file
-gROOT.LoadMacro('ExampleGrid.h+')
+gROOT.LoadMacro('../gridExamples/ExampleGrid.h')
 from ROOT import Grid
 
 def graphGrid(xmax, xmin, dx, ymax, ymin, dy, grid, imgNum) :
 
     #initialise variable
-    nxbin=int(np.sqrt(grid.nX()))
-    nybin=int(np.sqrt(grid.nY()))
+    nxbin=int(grid.nX()*dx)
+    nybin=int(grid.nY()*dy)
     print "nxbin = %d" %nxbin
     #comes from a histogram bin rule
     #(on wiki need to find better source)
@@ -67,12 +67,12 @@ def graphGrid(xmax, xmin, dx, ymax, ymin, dy, grid, imgNum) :
 
     return 0
 
-#initialise graph axes
+#initialise graph axes (these are global variables)
 g_dx=0.2
 g_dy=0.1
 
 #define array as a grid
-array = Grid(500,500,g_dx,g_dy)
+array = Grid(100,100,g_dx,g_dy)
 
 print "Initialised empty Grid"
 #fill array with random numbers
