@@ -1,21 +1,25 @@
-#Program to read in an array from a file and output it as a hitstogram
+#module to read in an array from a file and output it as a hitstogram
 #generalised to any array size
 #needs ROOT to run
 
-#import root functions and numpy
+# #import root functions and numpy
 from ROOT import gROOT, TCanvas, kBird, TH2D, gStyle, TImage
-import numpy as np
+# import numpy as np
 import os
 
 
 
 #load grid header file
-gROOT.LoadMacro('../gridExamples/ExampleGrid.h')
-from ROOT import Grid
+#gROOT.LoadMacro('gridExamples/ExampleGrid.h')
+#from ROOT import Grid
 
-def graphGrid(xmax, xmin, dx, ymax, ymin, dy, grid, imgNum) :
+def graphGrid(grid, imgNum) :
 
-    #initialise variable
+    #initialise variables
+    nx=grid.nX(); dx=grid.dX(); ny=grid.nY(); dy=grid.dY()
+    xmax=0.5*nx*dx; xmin=-0.5*nx*dx
+    ymax=0.5*ny*dy; ymin=-0.5*ny*dy
+    
     nxbin=int(grid.nX()-1)
     nybin=int(grid.nY()-1)
     print "nxbin = %d" %nxbin
@@ -23,7 +27,7 @@ def graphGrid(xmax, xmin, dx, ymax, ymin, dy, grid, imgNum) :
     #(on wiki need to find better source)
     
     fileName="graphs"
-    pathName = os.path.join( ".", fileName, imgNum + ".png" )
+    pathName = os.path.join( ".", "root", fileName, imgNum + ".png" )
     
     gStyle.SetPalette(kBird) #make pretty (set colours)
     gStyle.SetOptStat(0) #hides information about mean x,y ect
@@ -66,29 +70,3 @@ def graphGrid(xmax, xmin, dx, ymax, ymin, dy, grid, imgNum) :
     del histo
 
     return 0
-
-#initialise graph axes (these are global variables)
-g_dx=0.2
-g_dy=0.1
-
-#define array as a grid
-array = Grid(100,100,g_dx,g_dy)
-
-print "Initialised empty Grid"
-#fill array with random numbers
-for i in xrange(array.nX()):
-    for j in xrange(array.nY()):
-        array[i][j]=float(20*np.random.random_sample()-10)
-        
-print "Filled Grid sucessfully"
-
-#example call
-#this shoulb be importable as a function and can be run from another file with any grid. x and y values are determined by boundary conditions
-graphGrid(xmax=20, xmin=10, dx=array.dX(), #x variables
-          ymax=5, ymin=0, dy=array.dY(), #y variables
-          grid=array, imgNum="1") #grid and save file
-graphGrid(xmax=30, xmin=0, dx=array.dX(),
-          ymax=16, ymin=-10, dy=array.dY(),
-          grid=array, imgNum="2")
-
-del array
