@@ -2,8 +2,10 @@
 
 #adding any directories with python files to include to the path
 #need to look into __init__ files
-import sys
-sys.path.insert(0, "./root/")
+import sys, os, inspect
+cmd_subfolder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]) + "/root")
+if cmd_subfolder not in sys.path:
+    sys.path.insert(0, cmd_subfolder)
 
 #load macros of C++ files
 from ROOT import gROOT
@@ -17,7 +19,6 @@ from graphModule import graphGrid
 
 import time
 import numpy as np
-import os
 
 #####################################################################
 
