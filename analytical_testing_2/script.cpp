@@ -10,6 +10,7 @@
 #include <sstream>
 #include <cmath>
 #include <math.h>
+#include <iomanip> // for precision when printing
 
 using namespace std;
 
@@ -18,21 +19,35 @@ int main(){
   char fileName[] = "conditions2.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
+  Grid grid2(nx,ny,dx,dy);
   grid = grid_input(nx,ny,dx,dy,fileName); // filling grid with info from file
+  grid2 = analytical_fill_2(nx,ny,dx,dy,grid);
 
+  
   // print out grid
-  for (int i=0; i<nx; i++){ // loop over rows and columns
+  
+  for (int i=0; i<nx; i++){
     for (int j=0; j<ny; j++){
-      if (isnan(grid[j][i]) == 1){ // if the element is NAN then print empty space (makes it look nicer)
-	cout << "  ";
+      
+      if (isnan(grid2[j][i]) == 1){
+	cout << "      ";
+      }
+      
+      else if (grid2[j][i] == 0){
+	cout << "0.000 ";
+      }
+      else if (grid2[j][i] == 2){
+	cout << "2.000 ";
+      }
+      else if (grid2[j][i] == -2){
+	cout << "-2.000 ";
       }
       else {
-	cout << grid[j][i] << " ";
-      }
+	cout << setprecision(3) << grid2[j][i] <<  " ";
+   }
     }
     cout << "\n";
   }
-  cout << "\n";
   
   return 0;
 }
