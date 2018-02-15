@@ -20,14 +20,14 @@ def graphGrid(grid, imgNum) :
     xmax=0.5*nx*dx; xmin=-0.5*nx*dx
     ymax=0.5*ny*dy; ymin=-0.5*ny*dy
     
-    nxbin=int(grid.nX())
-    nybin=int(grid.nY())
+    nxbin=int(grid.nX()-1)
+    nybin=int(grid.nY()-1)
     print "nxbin = %d" %nxbin
     #comes from a histogram bin rule
     #(on wiki need to find better source)
     
     fileName="graphs"
-    pathName = os.path.join( ".", "root", fileName, imgNum + ".png" )
+    pathName = os.path.join( ".", fileName, imgNum + ".png" )
     
     gStyle.SetPalette(kBird) #make pretty (set colours)
     gStyle.SetOptStat(0) #hides information about mean x,y ect

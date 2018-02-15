@@ -10,8 +10,11 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
+gROOT.LoadMacro('program/script_to_python.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-from ROOT import Grid
+gROOT.LoadMacro('program/header.h')
+gROOT.LoadMacro('program/grid_input.cpp')
+from ROOT import Grid, plotBoundary, grid_input
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -23,7 +26,8 @@ import numpy as np
 #####################################################################
 
 #input and parser
-#boundaryGrid = someInputFunction()
+boundaryGrid = plotBoundary("conditions1.txt")
+graphGrid(boundaryGrid, "test")
 
 #####################################################################
 

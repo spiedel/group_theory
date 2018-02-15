@@ -11,11 +11,12 @@
 #include <sstream>
 #include <cmath>
 #include <math.h>
+#include<string>
 
 using namespace std;
 
 // Function
-Grid grid_input(int nx, int ny, float dx, float dy, char fileName[]){
+Grid grid_input(int nx, int ny, float dx, float dy, string fileName){
 
   // initialise grid
   Grid foo (nx,ny,dx,dy);
@@ -26,10 +27,12 @@ Grid grid_input(int nx, int ny, float dx, float dy, char fileName[]){
       foo[j][i] = NAN; // yes, j and i are switched
     }
   }
-   
+	
+	cout << fileName << endl; 
+	
   // Read from file
   ifstream inFile;
-  inFile.open("conditions1.txt"); // open file
+  inFile.open("program/" + fileName); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers
