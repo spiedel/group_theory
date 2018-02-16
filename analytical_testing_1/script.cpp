@@ -16,7 +16,7 @@ using namespace std;
 
 Grid plotBoundary(){
   int nx = 40; int ny = 40; float dx = 0.4; float dy = 0.4; // initialising values for grid
-  char fileName[] = "testing_analytical/conditions4.txt"; // file for getting boundary conditions
+  char fileName[] = "analytical_testing_1/conditions1.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
   Grid grid2(nx,ny,dx,dy);

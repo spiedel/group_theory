@@ -10,11 +10,11 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('testing_analytical/script.cpp')
+gROOT.LoadMacro('analytical_testing_2/script.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-gROOT.LoadMacro('testing_analytical/header.h')
-gROOT.LoadMacro('testing_analytical/grid_input.cpp')
-gROOT.LoadMacro('testing_analytical/analytical_fill_1.cpp')
+gROOT.LoadMacro('analytical_testing_2/header.h')
+gROOT.LoadMacro('analytical_testing_2/grid_input.cpp')
+gROOT.LoadMacro('analytical_testing_2/analytical_fill_2.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('header.h')
 from ROOT import Grid, plotBoundary, solve
@@ -45,3 +45,17 @@ solvedGrid = solve(boundaryGrid)
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 graphGrid(solvedGrid, "test2")
+
+
+####################################################################
+#analysis
+analytical = plotBoundary(1)
+differenceGrid = Grid(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY())
+
+for i in xrange(boundaryGrid.nX()):
+    for j in xrange(boundaryGrid.nY()):
+        differenceGrid[i][j] = analytical[i][j]-solvedGrid[i][j]
+        if differenceGrid[i][j]<0:
+            differenceGrid[i][j] = -1. * differenceGrid[i][j]
+
+graphGrid(differenceGrid, "test3")

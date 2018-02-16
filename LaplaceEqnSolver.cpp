@@ -39,12 +39,12 @@ Grid solve(Grid boundary) {
 
   //beta is a value in eqn, tolarance is max squared error
   //maxError is largest error bewteen one 
-  double beta=dx/dy, tolarence=0.000000001, currentErr, maxError=1;
+  double beta=dx/dy, tolarence=0.00000000001, currentErr, maxError=1;
   int n=0, iMinus, iPlus, jMinus, jPlus;
 
   //loop up to n times
   //not sure about tolarence - don't want too many zero values
-  while (n<200 && tolarence<maxError) {
+  while (n<300 && tolarence<maxError) {
 
     //set to 0 so can find maximum
     maxError = 0;
