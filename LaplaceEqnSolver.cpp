@@ -27,11 +27,11 @@ Grid solve(Grid boundary) {
     for (int j=0; j<ny; j++) {
       if (! isnan(boundary[i][j])) {
         intermediate[i][j] = boundary[i][j];
-        solution[i][j]=0;
+        solution[i][j] = boundary[i][j];
       }
       else {
-        intermediate[i][j]=0;
-        solution[i][j]=0;
+        intermediate[i][j]=0.;
+        solution[i][j]=0.;
       }
     }
   }
@@ -39,31 +39,56 @@ Grid solve(Grid boundary) {
 
   //beta is a value in eqn, tolarance is max squared error
   //maxError is largest error bewteen one 
-  double beta, tolarence=0.1, maxError=0.11;
-  int n=0;
+  double beta=dx/dy, tolarence=0.000000001, currentErr, maxError=1;
+  int n=0, iMinus, iPlus, jMinus, jPlus;
 
-  while (n<100 && tolarence<maxError) {
-    cout << "In while loop" << endl;
-    for (int i=1; i<(nx-1); i++) {
-      for (int j=1; j<(ny-1); j++) {
+  //loop up to n times
+  //not sure about tolarence - don't want too many zero values
+  while (n<200 && tolarence<maxError) {
+
+    //set to 0 so can find maximum
+    maxError = 0;
+
+    //loop through space
+    for (int i=0; i<nx; i++) {
+      for (int j=0; j<ny; j++) {
 
         //check if a boundary value
         if (! isnan(boundary[i][j])) {
           solution[i][j] = boundary[i][j];
         }
-        //if not update 
-        else {
-          beta = dx/dy;
-          //set solution to eqn value
-          solution[i][j] = (intermediate[i-1][j]+intermediate[i+1][j]+
-                            beta*beta*(intermediate[i][j-1]+intermediate[i][j+1]))/
-                            (2*(1+beta*beta));
-          cout << solution[i][j] << endl;
+
+        //boundary situation - this assumes that it infinitely repeats and has symmmetery so graph[i]==graph[i+nx]
+         else {
+          //ie index i+1 doesn't exist
+          iMinus = i-1;
+          jMinus = j-1;
+          iPlus = i+1;
+          jPlus = j+1;
+
+          //upates values if out of range
+          if (iMinus<0) {
+            iMinus += nx;
+          }
+          if (jMinus<0) {
+            jMinus += ny;
+          }
+          if (iPlus>nx) {
+            iPlus -=nx;
+          }
+          if (jPlus>ny) {
+            iMinus -=ny;
+          }
+
+          solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
+          beta*beta*(intermediate[i][jMinus]+intermediate[i][jPlus]))/
+          (2*(1+beta*beta));
         }
 
         //take square to avois issues of sign differences
-        if (maxError<(solution[i][j]-intermediate[i][j])*(solution[i][j]-intermediate[i][j])) {
-          maxError = (solution[i][j]-intermediate[i][j])*(solution[i][j]-intermediate[i][j]);
+        currentErr = (solution[i][j]-intermediate[i][j])*(solution[i][j]-intermediate[i][j]);
+        if (maxError<currentErr) {
+          maxError = sqrt(currentErr);
         }
 
 
@@ -72,14 +97,19 @@ Grid solve(Grid boundary) {
     }
 
     //each iteration set intermediate to next time step
-    for (int i=1; i<(nx-1); i++) {
-      for (int j=1; j<(ny-1); j++) {
+    for (int i=0; i<(nx); i++) {
+      for (int j=0; j<(ny); j++) {
         intermediate[i][j] = solution[i][j];
       }
     }
    
    
     n+=1;
+  }
+
+  if ( n == 100 ) {
+    cout << "Didn't reach tolarance level. Consider increasing n." << endl;
+    cout << "Maximum error between iterations was: " << maxError << endl;
   }
 
   return solution;
