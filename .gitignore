@@ -1,2 +1,4 @@
 #git ignore file
 root/graphs/
+*.pyc
+2*.png

@@ -42,6 +42,6 @@ Grid plotBoundary(){
     cout << "\n";
   }
 
-  return grid2;
+  return grid;
 
 }
