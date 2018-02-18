@@ -14,8 +14,8 @@
 
 using namespace std;
 
-Grid plotBoundary(){
-  int nx = 40; int ny = 40; float dx = 0.4; float dy = 0.4; // initialising values for grid
+Grid plotBoundary(int flag = 0){
+  int nx = 20; int ny = 20; float dx = 0.2; float dy = 0.2; // initialising values for grid
   char fileName[] = "analytical_testing_1/conditions1.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
@@ -23,6 +23,11 @@ Grid plotBoundary(){
   grid = grid_input(nx,ny,dx,dy,fileName); // filling grid with info from file
   grid2 = analytical_fill_1(nx,ny,dx,dy,grid);
 
-  return grid;
+  if (flag == 0) {
+    return grid;
+  }
+  else {
+    return grid2;
+  }
 
 }
