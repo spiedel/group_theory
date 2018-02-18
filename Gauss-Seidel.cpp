@@ -22,24 +22,26 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 		for (int j=0; j<y; j++ ) {
 			par[i][j] = 100; //initialise all at 100%
 			if (isnan(U[i][j])) {
-				Uold[i][j]=0;
+				Uold[i][j]=0.;
+				Unew[i][j]=0.;
 			}
 			else {
 				Uold[i][j] = U[i][j];
+				Unew[i][j] = U[i][j];
 			}
 		}
 	}
 
-	int flag=0, iminus, iplus, jminus, jplus;
-	while (flag == 0) {
+	int flag=0, n=0, iminus, iplus, jminus, jplus;
+	while (flag == 0 && n<1000) {
 		flag = 1;
 		for (int i=0; i<x; i++){
 			for (int j=0; j<y; j++ ) {
 				if (! isnan(U[i][j]) ) { //U[i][j] defined as a potential or ground skip it
 					Unew[i][j] = U[i][j];
 				}
-				else if (par[i][j] <= 2) {// 20 percent accuracy
-					break;
+				else if (par[i][j] <= 20) {// 20 percent accuracy
+					;
 					//do nothing
 				}
 				else {
@@ -65,10 +67,12 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 					}
 
 					flag = 0; //change the flag if one of the values has changed
-					Unew[i][j] = 	( Uold[i+1][j] + Uold[i-1][j] + Uold[i][j-1] + Uold[i][j+1] ) / 4.;
+					Unew[i][j] = 	( Uold[iplus][j] + Uold[iminus][j] + Uold[i][jminus] + Uold[i][jplus] ) / 4.;
 					par[i][j] = ( Unew[i][j] - Uold[i][j] ) / Unew[i][j];
 				}
 			}
+
+			n++;
 		}
 
 	for (int i=0; i<x; i++){

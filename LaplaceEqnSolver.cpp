@@ -58,7 +58,7 @@ Grid solve(Grid boundary) {
           solution[i][j] = boundary[i][j];
         }
 
-        //boundary situation - this assumes that it infinitely repeats and has symmmetery so graph[i]==graph[i+nx]
+        //boundary situation - this assumes that it infinitely repeats so graph[i]=graph[-i]
          else {
           //ie index i+1 doesn't exist
           iMinus = i-1;
@@ -68,16 +68,16 @@ Grid solve(Grid boundary) {
 
           //upates values if out of range
           if (iMinus<0) {
-            iMinus += nx;
+            iMinus = 0;
           }
           if (jMinus<0) {
-            jMinus += ny;
+            jMinus = 0;
           }
           if (iPlus>nx) {
-            iPlus -=nx;
+            iPlus = nx;
           }
           if (jPlus>ny) {
-            iMinus -=ny;
+            iMinus =ny;
           }
 
           solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
