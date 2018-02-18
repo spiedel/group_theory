@@ -44,7 +44,7 @@ solvedGrid = solve(boundaryGrid)
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-graphGrid(solvedGrid, "test2")
+graphGrid(solvedGrid, "test2", 1)
 
 
 ####################################################################
@@ -58,4 +58,4 @@ for i in xrange(boundaryGrid.nX()):
         if differenceGrid[i][j]<0:
             differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-graphGrid(differenceGrid, "test3")
+graphGrid(differenceGrid, "test3", 2)
