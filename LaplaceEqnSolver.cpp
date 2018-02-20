@@ -39,7 +39,7 @@ Grid solve(Grid boundary) {
 
   //beta is a value in eqn, tolarance is max squared error
   //maxError is largest error bewteen one 
-  double beta=dx/dy, tolarence=0.0000000000001, currentErr, maxError=1;
+  double beta=dx/dy, tolarence=0.000000000000001, currentErr, maxError=1;
   int n=0, iMinus, iPlus, jMinus, jPlus;
 
   //loop up to n times
@@ -81,7 +81,7 @@ Grid solve(Grid boundary) {
           }
 
           solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
-          beta*beta*(intermediate[i][jMinus]+intermediate[i][jPlus]))/
+          beta*beta*(solution[i][jMinus]+intermediate[i][jPlus]))/
           (2*(1+beta*beta));
         }
 

@@ -25,7 +25,7 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
       grid_0[j][k] = grid[j][k];
       grid_1[j][k] = grid_0[j][k];
 
-      if ( isnan(grid_1[j][k])==1 ){
+      if ( std::isnan(grid_1[j][k])==1 ){
 	grid_1[j][k]=0;
       }
     }
@@ -33,15 +33,36 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
 
   float lambda=0.0; // over-relaxation constant
   int n_max = 500; // maximum number of iterations.
+  int kPlus,kMinus,jPlus,jMinus;
 
   for ( int n=1; n < n_max; n++ ){
     // iteration over y
-    for ( int j=1; j < ny-1; j++ ){
+    for ( int j=0; j < ny; j++ ){
       // iteration over x
-      for ( int k=1; k < nx-1; k++ ){
-	if ( isnan(grid_0[j][k]) == 1 ){
+      for ( int k=0; k < nx; k++ ){
+	if ( std::isnan(grid_0[j][k]) == 1 ){
+	  
+	  kMinus = k-1;
+          jMinus = j-1;
+          kPlus = k+1;
+          jPlus = j+1;
+
+          //upates values if out of range
+          if (kMinus<0) {
+            kMinus = k+1;
+          }
+          if (jMinus<0) {
+            jMinus = j+1;
+          }
+          if (kPlus>nx) {
+            kPlus = k-1;
+          }
+          if (jPlus>ny) {
+            jPlus = j-1;
+          }
+
 	  // if there is no initial boundary condition, fill in grid using equation
-	  grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[j+1][k]+grid_1[j-1][k] + grid_1[j][k+1]+grid_1[j][k-1]) - grid_1[j][k]);
+	  grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[jPlus][k]+grid_1[jMinus][k] + grid_1[j][kPlus]+grid_1[j][kMinus]) - grid_1[j][k]);
 	}
 	else {
 	  // there is an initial boundary condition, fill the grid with this condition
