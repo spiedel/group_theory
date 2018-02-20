@@ -31,8 +31,8 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
 
-  float lambda=0.5; // over-relaxation constant
-  int n_max = 100; // maximum number of iterations.
+  float lambda=0.0; // over-relaxation constant
+  int n_max = 500; // maximum number of iterations.
 
   for ( int n=1; n < n_max; n++ ){
     // iteration over y
@@ -57,7 +57,7 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
   
-  return grid_0;
+  return grid_1;
 }
   
   
