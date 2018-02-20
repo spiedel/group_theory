@@ -1,0 +1,26 @@
+This file describes the formatting for the input to grid_input.
+
+The files will contain a list of numbers which will have a certain given structure as seen underneath.
+This structure is implemented using a GUI that will put the numbers into a file.
+
+For a circle;
+[1,r,x_0,y_0,V]
+
+r=radius
+(x_0,y_0)=centre of circle
+V=potential on circle
+
+For a line;
+[2,x_0,y_0,x_n,y_n,V]
+
+(x_0,y_0)=starting coordinate
+(x_n,y_n)=end coordinate
+V=potential on line
+
+For a rectangle;
+[3,x_0,y_0,dx,dy,V]
+
+(x_0,y_0)=left-hend upper corner
+dx=x-sidelenght
+dy=y-sidelenght
+V=potential on rectangle
