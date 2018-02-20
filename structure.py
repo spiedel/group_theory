@@ -10,19 +10,19 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('analytical_testing_2/script.cpp')
+gROOT.LoadMacro('analytical_testing_1/script.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-gROOT.LoadMacro('analytical_testing_2/header.h')
-gROOT.LoadMacro('analytical_testing_2/grid_input.cpp')
-gROOT.LoadMacro('analytical_testing_2/analytical_fill_2.cpp')
+gROOT.LoadMacro('analytical_testing_1/header.h')
+gROOT.LoadMacro('analytical_testing_1/grid_input.cpp')
+gROOT.LoadMacro('analytical_testing_1/analytical_fill_1.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('header.h')
-gROOT.LoadMacro('Gauss-Seidel.cpp') 
+gROOT.LoadMacro('Gauss-Seidel.cpp')
 from ROOT import Grid, plotBoundary, solve, GaussSeidel
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
-from graphModule import graphGrid 
+from graphModule import graphGrid
 
 import time
 import numpy as np
@@ -37,7 +37,7 @@ graphGrid(boundaryGrid, "test")
 
 #solver
 solvedGrid = solve(boundaryGrid)
-solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+#solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 
 #####################################################################
 
@@ -47,12 +47,12 @@ solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 graphGrid(solvedGrid, "test2", 0)
-graphGrid(solvedGauss, "something")
+#graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
 analytical = plotBoundary(1)
-graphGrid(analytical, "test2")
+graphGrid(analytical, "test3")
 differenceGrid = Grid(solvedGrid.nX(), solvedGrid.nY(), solvedGrid.dX(), solvedGrid.dY())
 
 for i in xrange(solvedGrid.nX()):

@@ -39,7 +39,7 @@ Grid solve(Grid boundary) {
 
   //beta is a value in eqn, tolarance is max squared error
   //maxError is largest error bewteen one 
-  double beta=dx/dy, tolarence=0.00000000001, currentErr, maxError=1;
+  double beta=dx/dy, tolarence=0.0000000000001, currentErr, maxError=1;
   int n=0, iMinus, iPlus, jMinus, jPlus;
 
   //loop up to n times
@@ -68,21 +68,25 @@ Grid solve(Grid boundary) {
 
           //upates values if out of range
           if (iMinus<0) {
-            iMinus = 0;
+            iMinus = iMinus+1;
           }
           if (jMinus<0) {
-            jMinus = 0;
+            jMinus = jMinus+1;
           }
           if (iPlus>nx) {
-            iPlus = nx;
+            iPlus = iPlus-1;
           }
           if (jPlus>ny) {
-            iMinus =ny;
+            jPlus = jPlus-1;
           }
 
           solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
           beta*beta*(intermediate[i][jMinus]+intermediate[i][jPlus]))/
           (2*(1+beta*beta));
+
+          if ( isnan(solution[i][j]) ) {
+            cout << i << "," << j << endl;
+          }
         }
 
         //take square to avois issues of sign differences
@@ -113,6 +117,13 @@ Grid solve(Grid boundary) {
   }
   else {
     cout << n << endl;
+  }
+
+  for (int i=0; i<(nx); i++) {
+    for (int j=0; j<(ny); j++) {
+      cout << solution[i][j] << " ";
+    }
+    cout << endl;
   }
 
   return solution;

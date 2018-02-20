@@ -40,7 +40,7 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 				if (! isnan(U[i][j]) ) { //U[i][j] defined as a potential or ground skip it
 					Unew[i][j] = U[i][j];
 				}
-				else if (par[i][j] <= 20) {// 20 percent accuracy
+				else if (par[i][j] <= 10) {// 20 percent accuracy
 					;
 					//do nothing
 				}
