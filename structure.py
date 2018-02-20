@@ -10,11 +10,11 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('analytical_testing_2/script.cpp')
+gROOT.LoadMacro('analytical_testing_1/script.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-gROOT.LoadMacro('analytical_testing_2/header.h')
-gROOT.LoadMacro('analytical_testing_2/grid_input.cpp')
-gROOT.LoadMacro('analytical_testing_2/analytical_fill_2.cpp')
+gROOT.LoadMacro('analytical_testing_1/header.h')
+gROOT.LoadMacro('analytical_testing_1/grid_input.cpp')
+gROOT.LoadMacro('analytical_testing_1/analytical_fill_1.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('header.h')
 gROOT.LoadMacro('Gauss-Seidel.cpp')
@@ -48,8 +48,8 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-graphGrid(solvedGrid, "test2", 1)
-graphGrid(solvedSofie, "test2", 1)
+graphGrid(solvedGrid, "test2")
+graphGrid(solvedSofie, "test2")
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
@@ -66,3 +66,5 @@ for i in xrange(solvedSofie.nX()):
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
 graphGrid(differenceGrid, "test3", 2)
+
+del differenceGrid, solvedSofie, solvedGrid, boundaryGrid
