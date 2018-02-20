@@ -25,7 +25,7 @@ Grid solve(Grid boundary) {
   //initialise solution with boudary values
   for (int i=0; i<nx; i++) {
     for (int j=0; j<ny; j++) {
-      if (! isnan(boundary[i][j])) {
+      if (! std::isnan(boundary[i][j])) {
         intermediate[i][j] = boundary[i][j];
         solution[i][j] = boundary[i][j];
       }
@@ -54,7 +54,7 @@ Grid solve(Grid boundary) {
       for (int j=0; j<ny; j++) {
 
         //check if a boundary value
-        if (! isnan(boundary[i][j])) {
+        if (! std::isnan(boundary[i][j])) {
           solution[i][j] = boundary[i][j];
         }
 
@@ -68,25 +68,21 @@ Grid solve(Grid boundary) {
 
           //upates values if out of range
           if (iMinus<0) {
-            iMinus = iMinus+1;
+            iMinus = iMinus+2;
           }
           if (jMinus<0) {
-            jMinus = jMinus+1;
+            jMinus = jMinus+2;
           }
           if (iPlus>nx) {
-            iPlus = iPlus-1;
+            iPlus = iPlus-2;
           }
           if (jPlus>ny) {
-            jPlus = jPlus-1;
+            jPlus = jPlus-2;
           }
 
           solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
           beta*beta*(intermediate[i][jMinus]+intermediate[i][jPlus]))/
           (2*(1+beta*beta));
-
-          if ( isnan(solution[i][j]) ) {
-            cout << i << "," << j << endl;
-          }
         }
 
         //take square to avois issues of sign differences

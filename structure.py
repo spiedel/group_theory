@@ -10,11 +10,11 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('analytical_testing_1/script.cpp')
+gROOT.LoadMacro('analytical_testing_2/script.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-gROOT.LoadMacro('analytical_testing_1/header.h')
-gROOT.LoadMacro('analytical_testing_1/grid_input.cpp')
-gROOT.LoadMacro('analytical_testing_1/analytical_fill_1.cpp')
+gROOT.LoadMacro('analytical_testing_2/header.h')
+gROOT.LoadMacro('analytical_testing_2/grid_input.cpp')
+gROOT.LoadMacro('analytical_testing_2/analytical_fill_2.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('header.h')
 gROOT.LoadMacro('Gauss-Seidel.cpp')
@@ -37,7 +37,7 @@ graphGrid(boundaryGrid, "test")
 
 #solver
 solvedGrid = solve(boundaryGrid)
-#solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 
 #####################################################################
 
@@ -47,7 +47,7 @@ solvedGrid = solve(boundaryGrid)
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 graphGrid(solvedGrid, "test2", 0)
-#graphGrid(solvedGauss, "something")
+graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis

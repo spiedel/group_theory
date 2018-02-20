@@ -21,7 +21,7 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 	for (int i=0; i<x; i++){
 		for (int j=0; j<y; j++ ) {
 			par[i][j] = 100; //initialise all at 100%
-			if (isnan(U[i][j])) {
+			if (std::isnan(U[i][j])) {
 				Uold[i][j]=0.;
 				Unew[i][j]=0.;
 			}
@@ -33,11 +33,11 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 	}
 
 	int flag=0, n=0, iminus, iplus, jminus, jplus;
-	while (flag == 0 && n<1000) {
+	while (flag == 0 && n<10000) {
 		flag = 1;
 		for (int i=0; i<x; i++){
 			for (int j=0; j<y; j++ ) {
-				if (! isnan(U[i][j]) ) { //U[i][j] defined as a potential or ground skip it
+			  if (! std::isnan(U[i][j]) ) { //U[i][j] defined as a potential or ground skip it
 					Unew[i][j] = U[i][j];
 				}
 				else if (par[i][j] <= 10) {// 20 percent accuracy
@@ -51,19 +51,19 @@ Grid GaussSeidel(int x, int y, double dx, double dy, Grid U){
 					jplus = j+1;
 
 					if (iminus < 0) {
-						iminus += x;
+						iminus += iminus+x;
 					}
 
 					if (iplus > x) {
-						iplus -= x;
+						iplus -= iplus-x;
 					}
 
 					if (jminus < 0) {
-						jminus += y;
+						jminus += jminus+y;
 					}
 
 					if (jplus > y) {
-						jplus -= y;
+						jplus -= jplus-y;
 					}
 
 					flag = 0; //change the flag if one of the values has changed
