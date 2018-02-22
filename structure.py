@@ -48,7 +48,7 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 #graphGrid(solvedGrid, "test1")
-graphGrid(solvedSofie, "test2",0 )
+graphGrid(solvedSofie, "test2",1 )
 #graphGrid(solvedGauss, "something")
 
 ####################################################################

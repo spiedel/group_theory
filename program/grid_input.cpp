@@ -129,30 +129,34 @@ Grid grid_input(int nx, int ny, float dx, float dy, char fileName[]){
 	  for (int m=0; m<ny; m++){
 	    float x = dy*((float)m - ((float)ny-1)*0.5);
 
-	    if ( y == -data[2] ){ // for upper horizontal side
-	      cout << "!";
-	      if (x >= data[1] && x <= (data[1] + data[3]) ){ // for some reason it did not like it if these were in the previous line
-		cout << "?";
+	    if ( y>= -data[2]-dx/2 && y<= -data[2]+dx/2) { // for upper horizontal side
+	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ // for some reason it did not like it if these were in the previous line
 		foo[m][n] = data[5]; // put potential into relevant grid-elements
-	      }}
-	    else if ( y == -data[2]+data[4] ){ // for upper horizontal side
-	      if (x >= data[1] && x <= (data[1] + data[3]) ){ 
+	      }
+	    }
+	    else if ( y>= -data[2]+data[4]-dx/2 && y<= -data[2]+data[4]+dx/2 ){ // for upper horizontal side
+	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ 
+		foo[m][n] = data[5];
+	      }
+	    }
+	    else if ( x>= data[1]-dx/2 && x<= data[1]+dx/2 ){// for left-most vertical side
+	      if ( y>= -data[2]-dx/2 && y <= -(data[2] - data[4])+dx/2 ){
 	      foo[m][n] = data[5];
-	      }}
-	    else if ( x == data[1] ){// for left-most vertical side
-	      if ( y>= -data[2]&& y <= -(data[2] - data[4]) ){
+	      
+	      }
+	    }
+	    else if ( x>= (data[1]+data[3]-dx/2) && x<= (data[1]+data[3]+dx/2) ){// for right-most vertical side
+	      if ( y>= -data[2]-dx/2 && y <= -(data[2] - data[4])+dx/2 ){
 	      foo[m][n] = data[5];
-	    }}
-	    else if ( x == (data[1]+data[3]) ){// for left-most vertical side
-	      if ( y>= -data[2]&& y <= -(data[2] - data[4]) ){
-	      foo[m][n] = data[5];
-	    }}
+	      }
+	    }
 	  }
 	}	  
       }			 
     }
   }
   inFile.close(); // close file
+  cout << "\n";
   
   return foo;
 }
