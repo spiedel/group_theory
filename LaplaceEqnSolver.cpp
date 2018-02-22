@@ -44,7 +44,7 @@ Grid solve(Grid boundary) {
 
   //loop up to n times
   //not sure about tolarence - don't want too many zero values
-  while (n<10000 && tolarence<maxError) {
+  while (n<1000 && tolarence<maxError) {
 
     //set to 0 so can find maximum
     maxError = 0;

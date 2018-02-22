@@ -10,13 +10,13 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('analytical_testing_1/script.cpp')
-gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-gROOT.LoadMacro('analytical_testing_1/header.h')
-gROOT.LoadMacro('analytical_testing_1/grid_input.cpp')
-gROOT.LoadMacro('analytical_testing_1/analytical_fill_1.cpp')
+gROOT.LoadMacro('gridExamples/ExampleGrid.h')
+gROOT.LoadMacro('program/script.cpp') 
+gROOT.LoadMacro('program/header.h')
+gROOT.LoadMacro('program/grid_input.cpp')
+gROOT.LoadMacro('program/analytical_fill_2.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
-gROOT.LoadMacro('header.h')
+#gROOT.LoadMacro('header.h')
 gROOT.LoadMacro('Gauss-Seidel.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
 from ROOT import Grid, plotBoundary, solve, GaussSeidel, numerical_solution
@@ -61,10 +61,14 @@ differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solv
 for i in xrange(solvedSofie.nX()):
     for j in xrange(solvedSofie.nY()):
         if not np.isnan(analytical[i][j]):
-            differenceGrid[i][j] = analytical[i][j]-solvedSofie[i][j]
+            if analytical[i][j] != 0:
+                differenceGrid[i][j] = (analytical[i][j]-solvedGrid[i][j])/analytical[i][j]
+            else:
+                differenceGrid[i][j] = (analytical[i][j]-solvedGrid[i][j])
+
             if differenceGrid[i][j]<0:
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
 graphGrid(differenceGrid, "test3", 2)
 
-del differenceGrid, solvedSofie, solvedGrid, boundaryGrid
+del differenceGrid, solvedSofie, boundaryGrid, solvedGrid

@@ -32,7 +32,7 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
   }
 
   float lambda=0.0; // over-relaxation constant
-  int n_max = 500; // maximum number of iterations.
+  int n_max = 1000; // maximum number of iterations.
   int kPlus,kMinus,jPlus,jMinus;
 
   for ( int n=1; n < n_max; n++ ){
