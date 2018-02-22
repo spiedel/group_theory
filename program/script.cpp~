@@ -14,7 +14,7 @@
 using namespace std;
 
 int main(){
-  int nx = 21; int ny = 21; float dx = 0.4; float dy = 0.4; // initialising values for grid
+  int nx = 20; int ny = 20; float dx = 0.2; float dy = 0.2; // initialising values for grid
   char fileName[] = "conditions3.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
