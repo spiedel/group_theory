@@ -10,29 +10,25 @@
 #include <sstream>
 #include <cmath>
 #include <math.h>
+#include <iomanip> // for precision when printing
 
 using namespace std;
 
-int main(){
+Grid plotBoundary(int flag=0){
+//flag is a optional value to print analytical solution
+
   int nx = 20; int ny = 20; float dx = 0.2; float dy = 0.2; // initialising values for grid
-  char fileName[] = "conditions2.txt"; // file for getting boundary conditions
+  char fileName[] = "analytical_testing_2/conditions2.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
+  Grid grid2(nx,ny,dx,dy);
   grid = grid_input(nx,ny,dx,dy,fileName); // filling grid with info from file
-
-  // print out grid
-  for (int i=0; i<nx; i++){ // loop over rows and columns
-    for (int j=0; j<ny; j++){
-      if (isnan(grid[j][i]) == 1){ // if the element is NAN then print empty space (makes it look nicer)
-	cout << "  ";
-      }
-      else {
-	cout << grid[j][i] << " ";
-      }
-    }
-    cout << "\n";
-  }
-  cout << "\n";
+  grid2 = analytical_fill_2(nx,ny,dx,dy,grid);
   
-  return 0;
+  if (flag == 0) {
+      return grid;
+  }
+  else {
+        return grid2;
+  }
 }

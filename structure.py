@@ -10,12 +10,20 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
+gROOT.LoadMacro('analytical_testing_1/script.cpp')
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-from ROOT import Grid
+gROOT.LoadMacro('analytical_testing_1/header.h')
+gROOT.LoadMacro('analytical_testing_1/grid_input.cpp')
+gROOT.LoadMacro('analytical_testing_1/analytical_fill_1.cpp')
+gROOT.LoadMacro('LaplaceEqnSolver.cpp')
+gROOT.LoadMacro('header.h')
+gROOT.LoadMacro('Gauss-Seidel.cpp')
+gROOT.LoadMacro('numerical/numerical_solution.cpp')
+from ROOT import Grid, plotBoundary, solve, GaussSeidel, numerical_solution
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
-from graphModule import graphGrid 
+from graphModule import graphGrid
 
 import time
 import numpy as np
@@ -23,12 +31,15 @@ import numpy as np
 #####################################################################
 
 #input and parser
-#boundaryGrid = someInputFunction()
+boundaryGrid = plotBoundary()
+graphGrid(boundaryGrid, "test")
 
 #####################################################################
 
 #solver
-#solvedGrid = someSolverFunction(boundaryGrid)
+solvedGrid = solve(boundaryGrid)
+#solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 
 #####################################################################
 
@@ -37,13 +48,23 @@ import numpy as np
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-#example grid for testing purposes
-solvedGrid = Grid(100,100,0.2,0.1)
-print "Initialised empty Grid"
-#fill array with random numbers
-for i in xrange(solvedGrid.nX()):
-    for j in xrange(solvedGrid.nY()):
-        solvedGrid[i][j]=float(20*np.random.random_sample()-10)
-print "Filled Grid sucessfully"
+graphGrid(solvedGrid, "test2")
+graphGrid(solvedSofie, "test2")
+#graphGrid(solvedGauss, "something")
 
-graphGrid(solvedGrid, outputFileName)
+####################################################################
+#analysis
+analytical = plotBoundary(1)
+graphGrid(analytical, "test3")
+differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
+
+for i in xrange(solvedSofie.nX()):
+    for j in xrange(solvedSofie.nY()):
+        if not np.isnan(analytical[i][j]):
+            differenceGrid[i][j] = analytical[i][j]-solvedSofie[i][j]
+            if differenceGrid[i][j]<0:
+                differenceGrid[i][j] = -1. * differenceGrid[i][j]
+
+graphGrid(differenceGrid, "test3", 2)
+
+del differenceGrid, solvedSofie, solvedGrid, boundaryGrid

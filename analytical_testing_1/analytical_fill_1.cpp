@@ -20,7 +20,7 @@ using namespace std;
 Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
   // Read from file
   ifstream inFile;
-  inFile.open("conditions1.txt"); // open file
+  inFile.open("analytical_testing_1/conditions1.txt"); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers from file

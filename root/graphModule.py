@@ -13,15 +13,15 @@ import os
 #gROOT.LoadMacro('gridExamples/ExampleGrid.h')
 #from ROOT import Grid
 
-def graphGrid(grid, imgNum) :
+def graphGrid(grid, imgNum, graphType=0):
 
     #initialise variables
     nx=grid.nX(); dx=grid.dX(); ny=grid.nY(); dy=grid.dY()
     xmax=0.5*nx*dx; xmin=-0.5*nx*dx
     ymax=0.5*ny*dy; ymin=-0.5*ny*dy
     
-    nxbin=int(grid.nX()-1)
-    nybin=int(grid.nY()-1)
+    nxbin=int(grid.nX())
+    nybin=int(grid.nY())
     print "nxbin = %d" %nxbin
     #comes from a histogram bin rule
     #(on wiki need to find better source)
@@ -50,11 +50,12 @@ def graphGrid(grid, imgNum) :
     #draw graph
     #to plot contour uncomment next 4 comments
     c = TCanvas("c", "Canvas", 800, 800)
-    #c.Divide(2,1)
-    #c.cd(1)
-    histo.Draw("Colz") #2d heatmap
-    #c.cd(2)
-    #histo.Draw("Cont1") #3d histogram
+    if graphType == 0:
+        histo.Draw("Colz") #2d heatmap
+    elif graphType == 1:
+        histo.Draw("Cont1") #3d histogram
+    elif graphType == 2:
+        histo.Draw("LEGO1") #3d boxes
     c.Update()
 
     #save graph as a png file (commented out for now)

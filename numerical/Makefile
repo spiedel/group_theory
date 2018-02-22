@@ -3,7 +3,7 @@ CC = g++
 EXE = Prog
 
 FLAGS= (-std=c++11)
-OBJ= script.o grid_input.o
+OBJ= script.o grid_input.o numerical_solution.o
 
 $(EXE): $(OBJ)
 	$(CC) -std=c++11 -o $@ $^

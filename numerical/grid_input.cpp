@@ -69,11 +69,14 @@ Grid grid_input(int nx, int ny, float dx, float dy, char fileName[]){
 	  }
 	}
 	// print out the grid
+	/*
 	for (int i=0; i<5; i++){
 	  cout << data[i] << " ";
 	}
 	cout << "\n";
-      }
+	*/
+	}
+      
       else if (a == 2){
 	//---------------------- LINE -----------------------------
 	float data[6] = { 2,0,0,0,0,0 }; // empty array to contain info on line
