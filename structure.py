@@ -16,10 +16,9 @@ gROOT.LoadMacro('program/header.h')
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
-#gROOT.LoadMacro('header.h')
 gROOT.LoadMacro('Gauss-Seidel.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, plotBoundary, solve, GaussSeidel, numerical_solution
+from ROOT import Grid, plotBoundary, solve, numerical_solution
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -37,7 +36,7 @@ graphGrid(boundaryGrid, "test")
 #####################################################################
 
 #solver
-solvedGrid = solve(boundaryGrid)
+#solvedGrid = solve(boundaryGrid)
 #solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 
@@ -48,27 +47,29 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-graphGrid(solvedGrid, "test2")
-graphGrid(solvedSofie, "test2")
+#graphGrid(solvedGrid, "test1")
+graphGrid(solvedSofie, "test2",0 )
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
-analytical = plotBoundary(1)
-graphGrid(analytical, "test3")
-differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
+#analytical = plotBoundary(1)
+#graphGrid(analytical, "test3")
+#differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 
-for i in xrange(solvedSofie.nX()):
-    for j in xrange(solvedSofie.nY()):
-        if not np.isnan(analytical[i][j]):
-            if analytical[i][j] != 0:
-                differenceGrid[i][j] = (analytical[i][j]-solvedGrid[i][j])/analytical[i][j]
-            else:
-                differenceGrid[i][j] = (analytical[i][j]-solvedGrid[i][j])
+#for i in xrange(solvedSofie.nX()):
+#    for j in xrange(solvedSofie.nY()):
+#        if not np.isnan(analytical[i][j]):
+#            if analytical[i][j] != 0:
+#                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
+#            elif solvedSofie[i][j] != 0:
+#                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
+#            else:
+#                differenceGrid[i][j]=0;
+#
+#            if differenceGrid[i][j]<0:
+#                differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-            if differenceGrid[i][j]<0:
-                differenceGrid[i][j] = -1. * differenceGrid[i][j]
+#graphGrid(differenceGrid, "test4", 2)
 
-graphGrid(differenceGrid, "test3", 2)
-
-del differenceGrid, solvedSofie, boundaryGrid, solvedGrid
+del solvedSofie, boundaryGrid#, solvedGrid,  differenceGrid

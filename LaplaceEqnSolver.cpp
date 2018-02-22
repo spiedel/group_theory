@@ -35,11 +35,12 @@ Grid solve(Grid boundary) {
       }
     }
   }
-
+  
+  cout << "initialised" << endl;
 
   //beta is a value in eqn, tolarance is max squared error
   //maxError is largest error bewteen one 
-  double beta=dx/dy, tolarence=0.000000000000001, currentErr, maxError=1;
+  double beta=dx/dy, tolarence=0.0001, currentErr, maxError=1;
   int n=0, iMinus, iPlus, jMinus, jPlus;
 
   //loop up to n times
@@ -85,9 +86,9 @@ Grid solve(Grid boundary) {
           (2*(1+beta*beta));
         }
 
-        //take square to avois issues of sign differences
+        //take square to avoid issues of sign differences
         currentErr = (solution[i][j]-intermediate[i][j])*(solution[i][j]-intermediate[i][j]);
-        if (maxError<currentErr) {
+        if (maxError<sqrt(currentErr)) {
           maxError = sqrt(currentErr);
         }
 
@@ -95,31 +96,21 @@ Grid solve(Grid boundary) {
       }
 
     }
-
     //each iteration set intermediate to next time step
     for (int i=0; i<(nx); i++) {
       for (int j=0; j<(ny); j++) {
         intermediate[i][j] = solution[i][j];
       }
     }
-   
-   
     n+=1;
   }
 
-  if ( n == 10000 ) {
+  if ( n == 1000 ) {
     cout << "Didn't reach tolarance level. Consider increasing n." << endl;
     cout << "Maximum error between iterations was: " << maxError << endl;
   }
   else {
     cout << n << endl;
-  }
-
-  for (int i=0; i<(nx); i++) {
-    for (int j=0; j<(ny); j++) {
-      cout << solution[i][j] << " ";
-    }
-    cout << endl;
   }
 
   return solution;
