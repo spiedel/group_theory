@@ -71,6 +71,6 @@ for i in xrange(solvedSofie.nX()):
             if differenceGrid[i][j]<0:
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-graphGrid(differenceGrid, "test4", 2)
+graphGrid(differenceGrid, "test4", 0)
 
 del solvedSofie, boundaryGrid, differenceGrid
