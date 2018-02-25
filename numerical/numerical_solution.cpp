@@ -40,9 +40,9 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     for ( int j=0; j < ny; j++ ){
       // iteration over x
       for ( int k=0; k < nx; k++ ){
-	if ( std::isnan(grid_0[j][k]) == 1 ){
+	      if ( std::isnan(grid_0[j][k]) == 1 ){
 	  
-	  kMinus = k-1;
+	        kMinus = k-1;
           jMinus = j-1;
           kPlus = k+1;
           jPlus = j+1;
@@ -61,19 +61,19 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
             jPlus = j-1;
           }
 
-	  // if there is no initial boundary condition, fill in grid using equation
-	  grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[jPlus][k]+grid_1[jMinus][k] + grid_1[j][kPlus]+grid_1[j][kMinus]) - grid_1[j][k]);
-	}
-	else {
-	  // there is an initial boundary condition, fill the grid with this condition
-	  grid_2[j][k]=grid_0[j][k];
-	}
+	        // if there is no initial boundary condition, fill in grid using equation
+	        grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[jPlus][k]+grid_1[jMinus][k] + grid_1[j][kPlus]+grid_1[j][kMinus]) - grid_1[j][k]);
+	      }
+	      else {
+	        // there is an initial boundary condition, fill the grid with this condition
+	        grid_2[j][k]=grid_0[j][k];
+	      }
       }
     }
     // update grid_1 to be grid_2 for next iteration
     for ( int j=0; j < ny; j++ ){
       for ( int k=0; k < nx; k++ ){
-	grid_1[j][k] = grid_2[j][k];
+	      grid_1[j][k] = grid_2[j][k];
       }
     }
   }

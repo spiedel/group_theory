@@ -14,6 +14,7 @@ gROOT.LoadMacro('gridExamples/ExampleGrid.h')
 gROOT.LoadMacro('program/script.cpp') 
 gROOT.LoadMacro('program/header.h')
 gROOT.LoadMacro('program/grid_input.cpp')
+gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('Gauss-Seidel.cpp')
@@ -48,28 +49,28 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 #graphGrid(solvedGrid, "test1")
-graphGrid(solvedSofie, "test2",1 )
+graphGrid(solvedSofie, "test2",0)
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
-#analytical = plotBoundary(1)
-#graphGrid(analytical, "test3")
-#differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
+analytical = plotBoundary(1)
+graphGrid(analytical, "test3")
+differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 
-#for i in xrange(solvedSofie.nX()):
-#    for j in xrange(solvedSofie.nY()):
-#        if not np.isnan(analytical[i][j]):
-#            if analytical[i][j] != 0:
-#                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
-#            elif solvedSofie[i][j] != 0:
-#                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
-#            else:
-#                differenceGrid[i][j]=0;
-#
-#            if differenceGrid[i][j]<0:
-#                differenceGrid[i][j] = -1. * differenceGrid[i][j]
+for i in xrange(solvedSofie.nX()):
+    for j in xrange(solvedSofie.nY()):
+        if not np.isnan(analytical[i][j]):
+            if analytical[i][j] != 0:
+                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
+            elif solvedSofie[i][j] != 0:
+                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
+            else:
+                differenceGrid[i][j]=0;
 
-#graphGrid(differenceGrid, "test4", 2)
+            if differenceGrid[i][j]<0:
+                differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-del solvedSofie, boundaryGrid#, solvedGrid,  differenceGrid
+graphGrid(differenceGrid, "test4", 2)
+
+del solvedSofie, boundaryGrid, differenceGrid
