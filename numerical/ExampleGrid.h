@@ -2,6 +2,7 @@
 #define GRID_H
 
 #include <vector>
+
 class Grid {
     private:
         unsigned m_nX;
@@ -130,4 +131,4 @@ class Grid {
 
 #endif // GRID_H
 
-// vim: sw=4:tw=76:et:ft=cpp 
+// vim: sw=4:tw=76:et:ft=cpp

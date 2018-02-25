@@ -4,7 +4,6 @@
 
 // header files
 #include "ExampleGrid.h"
-#include "header.h"
 
 // other stuff to be included
 #include <iostream> // terminal io

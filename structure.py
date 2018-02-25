@@ -12,14 +12,13 @@ from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
 gROOT.LoadMacro('gridExamples/ExampleGrid.h')
 gROOT.LoadMacro('program/script.cpp') 
-gROOT.LoadMacro('program/header.h')
+#gROOT.LoadMacro('program/header.h')
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
-gROOT.LoadMacro('LaplaceEqnSolver.cpp')
-gROOT.LoadMacro('Gauss-Seidel.cpp')
+#gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, plotBoundary, solve, numerical_solution
+from ROOT import Grid, plotBoundary, numerical_solution
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
