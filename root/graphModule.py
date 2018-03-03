@@ -13,7 +13,7 @@ import os
 #gROOT.LoadMacro('gridExamples/ExampleGrid.h')
 #from ROOT import Grid
 
-def graphGrid(grid, imgNum, graphType=0):
+def graphGrid(grid, imgNum, graphType=0, stats=False):
 
     #initialise variables
     nx=grid.nX(); dx=grid.dX(); ny=grid.nY(); dy=grid.dY()
@@ -26,11 +26,18 @@ def graphGrid(grid, imgNum, graphType=0):
     #comes from a histogram bin rule
     #(on wiki need to find better source)
     
+    #for arrow plot
+    if graphType == 3:
+        nxbin = int(nxbin/4)
+        nybin = int(nybin/4)
+
     fileName="graphs"
     pathName = os.path.join( ".", "root", fileName, imgNum + ".png" )
     
     gStyle.SetPalette(kBird) #make pretty (set colours)
     gStyle.SetOptStat(0) #hides information about mean x,y ect
+    if stats == True:
+        gStyle.SetOptStat(1)
 
     #define graph
     histo = TH2D("histo", "Histogram from array;x;y",
@@ -53,9 +60,11 @@ def graphGrid(grid, imgNum, graphType=0):
     if graphType == 0:
         histo.Draw("Colz") #2d heatmap
     elif graphType == 1:
-        histo.Draw("Cont1") #3d histogram
+        histo.Draw("Cont1") #contour
     elif graphType == 2:
         histo.Draw("LEGO1") #3d boxes
+    elif graphType == 3:
+        histo.Draw("ARR") #arrow mode
     c.Update()
 
     #save graph as a png file (commented out for now)

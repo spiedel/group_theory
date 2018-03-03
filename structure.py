@@ -48,13 +48,13 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 #graphGrid(solvedGrid, "test1")
-graphGrid(solvedSofie, "test2",0)
+graphGrid(solvedSofie, "test2",3)
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
 analytical = plotBoundary(1)
-graphGrid(analytical, "test3")
+graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 
 for i in xrange(solvedSofie.nX()):
@@ -70,6 +70,6 @@ for i in xrange(solvedSofie.nX()):
             if differenceGrid[i][j]<0:
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-graphGrid(differenceGrid, "test4", 0)
+graphGrid(differenceGrid, "test4", 0, True)
 
 del solvedSofie, boundaryGrid, differenceGrid

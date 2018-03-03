@@ -12,8 +12,8 @@ using namespace std;
 * change analytical_fill_2 to use a different solution */
 
 Grid plotBoundary(int flag = 0){
-  int nx = 50; int ny = 50; float dx = 0.4; float dy = 0.4; // initialising values for grid
-  char fileName[] = "program/conditions2.txt"; // file for getting boundary conditions
+  int nx = 80; int ny = 80; float dx = 0.4; float dy = 0.4; // initialising values for grid
+  char fileName[] = "program/conditions4.txt"; // file for getting boundary conditions
   
   Grid grid(nx,ny,dx,dy); // initialising grid
   Grid grid2(nx,ny,dx,dy);

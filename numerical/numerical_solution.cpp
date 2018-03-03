@@ -46,7 +46,8 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
           grid_2[j][k] = grid_0[j][k];
         }
         
-        else if ( per[j][k] >= 20 ){
+        //else if ( per[j][k] >= 20 ){
+        else {
           flag = true;
 	        kMinus = k-1;
           jMinus = j-1;
@@ -69,12 +70,12 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
 
 	        // if there is no initial boundary condition, fill in grid using equation
 	        grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[jPlus][k]+grid_1[jMinus][k] + grid_1[j][kPlus]+grid_1[j][kMinus]) - grid_1[j][k]);
-          if (grid_2[j][k] != 0) {         
+          /*if (grid_2[j][k] != 0) {         
             per[j][k] = 100. * (grid_1[j][k] + grid_2[j][k]) / grid_2[j][k];
             if (per[j][k] < 0) {
               per[j][k] = - per[j][k];
             }
-          }
+          }*/
 	      }
       }
     }
