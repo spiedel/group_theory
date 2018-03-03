@@ -49,7 +49,6 @@ Grid grid_input(char fileName[]){
   float nx = (2*NX+1)/dx;
   float ny = (2*NY+1)/dy;
 
-  cout << nx << " " << ny << " " << dx << " " << dy << "\n";
   // initialise grid
   Grid foo (nx,ny,dx,dy);
   
@@ -92,12 +91,6 @@ Grid grid_input(char fileName[]){
 	    }
 	  }
 	}
-	
-	// print out the grid
-	for (int i=0; i<5; i++){
-	  cout << data[i] << " ";
-	}
-	cout << "\n";
       }
       else if (a == 2){
 	//---------------------- LINE -----------------------------
@@ -195,24 +188,17 @@ Grid grid_input(char fileName[]){
 	  for (int m=0; m<ny; m++){ // itterate over y-values
 	    float y = dy*((float)m - ((float)ny-1)*0.5);
 	    
-	    if ( x >= data[1]-dx/2 && x <= data[1]+dx/2){
+	    if ( x >= -data[1]-dx/2 && x <= -data[1]+dx/2){ // getting coordinate system right
 	      if ( y >= data[2]-dy/2 && y <= data[2]+dx/2){
 		foo[m][n] = data[3];
 	      }
 	    }
 	  }
 	}
-	
-	// print out the grid
-	for (int i=0; i<4; i++){
-	  cout << data[i] << " ";
-	}
-	cout << "\n";
       }
     }
   }
   inFile.close(); // close file
-  cout << "\n";
   
   return foo;
 }

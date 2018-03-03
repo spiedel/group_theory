@@ -43,17 +43,53 @@ def doneGeo(index):
             mess = Label(master, text= "All entries need values.")
             mess.grid(row=6, column=5,columnspan=2)
         
-    #elif index == 2: # Line
-        #if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_xn.get()) != 0 and len(ent_yn.get()) != 0 and len(ent_pot.get()) != 0):
-         #   file_obj.write("2 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_xn.get() + " " + ent_yn.get() + " " + ent_pot.get() + "\n")
+    elif index == 2: # Line
+        if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_xn.get()) != 0 and len(ent_yn.get()) != 0 and len(ent_pot.get()) != 0):
+            file_obj.write("2 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_xn.get() + " " + ent_yn.get() + " " + ent_pot.get() + "\n")
 
             # destroy the widgets
-          #  ent_x0.destroy(), ent_y0.destroy(), ent_xn.destroy(), ent_yn.destroy(), ent_pot.destroy()
-           # line_label, exit_ btn.destroy(), mess.destroy()
+            ent_x0.destroy(), ent_y0.destroy(), ent_xn.destroy(), ent_yn.destroy(), ent_pot.destroy()
+            line_label.destroy(), start_coor.destroy(), end_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
+
+            # runing the GUI again
+            shape_inputs()
+
+        else:
+            # message about filling entries
+            mess = Label(master, text= "All entries need values.")
+            mess.grid(row=7, column=5,columnspan=2)
             
-    #elif index == 3: # Rectangle
-            
-    #elif index == 4: # Point
+    elif index == 3: # Rectangle
+        if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_dx.get()) != 0 and len(ent_dy.get()) != 0 and len(ent_pot.get()) != 0):
+            file_obj.write("3 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_dx.get() + " " + ent_dy.get() + " " + ent_pot.get() + "\n")
+
+            # destroy the widgets
+            ent_x0.destroy(), ent_y0.destroy(), ent_dx.destroy(), ent_dy.destroy(), ent_pot.destroy()
+            rec_label.destroy(), start_coor.destroy(), side_length.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
+
+            # runing the GUI again
+            shape_inputs()
+
+        else:
+            # message about filling entries
+            mess = Label(master, text= "All entries need values.")
+            mess.grid(row=7, column=5,columnspan=2)
+        
+    elif index == 4: # Point
+        if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_pot.get()) != 0):
+            file_obj.write("4 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_pot.get() + "\n")
+
+            # destroy the widgets
+            ent_x0.destroy(), ent_y0.destroy(), ent_pot.destroy()
+            point_label.destroy(), start_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
+
+            # runing the GUI again
+            shape_inputs()
+
+        else:
+            # message about filling entries
+            mess = Label(master, text= "All entries need values.")
+            mess.grid(row=5, column=5,columnspan=2)
                 
 # --- Getting geometric shapes
 def shape_inputs():
@@ -66,11 +102,9 @@ def shape_inputs():
     grid1 = Canvas(master,width = canvas_width,height=canvas_height,background="white")
     grid1.grid(row=1,rowspan=7,column=0,columnspan=5)
 
-
     # Coordinate System
     grid1.create_line(250,0,250,500)
     grid1.create_line(0,250,500,250)
-
     
     # Geometric shapes 
     geo_shape = Label(master, text="Geometric Shapes", anchor = "center", font = ("Times",18))
@@ -181,7 +215,7 @@ def line():
     mess.grid(row=7,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done")#, command= lambda: doneGeo())
+    done = Button(master, text="Done", command= lambda: doneGeo(2))
     done.grid(row=8,column=5)
     
     # move exit button
@@ -228,7 +262,7 @@ def rectangle():
     mess.grid(row=7,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done")#, command= lambda: doneGeo())
+    done = Button(master, text="Done", command= lambda: doneGeo(3))
     done.grid(row=8,column=5)
     
     # move exit button
@@ -236,7 +270,7 @@ def rectangle():
     exit_btn = Button(master, text="Exit", command=master.destroy)
     exit_btn.grid(row=8, column=6)
 
-# --- Rectangle
+# --- Point
 def point():
     # -- Variables
     global point_label, start_coor, ent_x0,ent_y0, pot, ent_pot, exit_btn, done
@@ -267,7 +301,7 @@ def point():
     mess.grid(row=5,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done")#, command= lambda: doneGeo())
+    done = Button(master, text="Done", command= lambda: doneGeo(4))
     done.grid(row=6,column=5)
     
     # move exit button
