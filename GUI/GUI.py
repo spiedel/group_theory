@@ -87,7 +87,7 @@ def doneGeo(index,grid1):
 
             # destroy the widgets
             ent_x0.destroy(), ent_y0.destroy(), ent_xn.destroy(), ent_yn.destroy(), ent_pot.destroy()
-            line_label.destroy(), start_coor.destroy(), end_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
+            line_label.destroy(), exp_label.destroy(), start_coor.destroy(), end_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
 
             # runing the GUI again
             shape_inputs(grid1)
@@ -284,7 +284,7 @@ def circle():
 # ---- Line Function
 def line():
     # -- Variables
-    global line_label, start_coor, ent_x0,ent_y0, end_coor, ent_xn, ent_yn, pot, ent_pot, exit_btn, done
+    global line_label, exp_label, start_coor, ent_x0,ent_y0, end_coor, ent_xn, ent_yn, pot, ent_pot, exit_btn, done
     
     # remove previous buttons
     geo_shape.destroy(), circle_btn.destroy(), line_btn.destroy(), rec_btn.destroy(), pnt_btn.destroy()
@@ -293,40 +293,44 @@ def line():
     line_label = Label(master, text="Line", anchor = "center", font = ("Times",18))
     line_label.grid(row=1,column=5,columnspan=2)
 
+    # Line explanation
+    exp_label = Label(master, text="If endless lines enter inf or -inf", anchor = "center", font = ("Times",14))
+    exp_label.grid(row=2,column=5,columnspan=2)
+    
     # Line start coordinate
     start_coor = Label(master, text="Start Coordinates")
-    start_coor.grid(row=2, column=5,columnspan=2)
+    start_coor.grid(row=3, column=5,columnspan=2)
     ent_x0 = Entry(master)
-    ent_x0.grid(row=3, column=5)
+    ent_x0.grid(row=4, column=5)
     ent_y0 = Entry(master)
-    ent_y0.grid(row=3, column=6)
+    ent_y0.grid(row=4, column=6)
 
     # Line end coordinate
     end_coor = Label(master, text="End Coordinates")
-    end_coor.grid(row=4, column=5,columnspan=2)
+    end_coor.grid(row=5, column=5,columnspan=2)
     ent_xn = Entry(master)
-    ent_xn.grid(row=5, column=5)
+    ent_xn.grid(row=6, column=5)
     ent_yn = Entry(master)
-    ent_yn.grid(row=5, column=6)
+    ent_yn.grid(row=6, column=6)
 
     # Potential
     pot = Label(master, text="Potential (0 if GND)")
-    pot.grid(row=6, column=5)
+    pot.grid(row=7, column=5)
     ent_pot = Entry(master)
-    ent_pot.grid(row=6,column=6)
+    ent_pot.grid(row=7,column=6)
 
     # Empty space
     mess = Label(master)
-    mess.grid(row=7,columnspan=2)
+    mess.grid(row=8,columnspan=2)
     
     # Done button
     done = Button(master, text="Done", command= lambda: doneGeo(2,grid1))
-    done.grid(row=8,column=5)
+    done.grid(row=9,column=5)
     
     # move exit button
     exit_btn.destroy()
     exit_btn = Button(master, text="Exit", command=master.destroy)
-    exit_btn.grid(row=8, column=6)
+    exit_btn.grid(row=9, column=6)
 
 # --- Rectangle
 def rectangle():
