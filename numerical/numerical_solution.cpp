@@ -6,28 +6,36 @@
 #include "ExampleGrid.h"
 
 // other stuff to be included
-#include <iostream> // terminal io
-#include <fstream> // file io
-#include <sstream> // strings
+//#include <iostream> // terminal io
+//#include <fstream> // file io
+//#include <sstream> // strings
 #include <cmath> 
 #include <math.h>
+#include <time.h>
+
 
 using namespace std;
 
 // Function
 Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
+  //timer
+  clock_t tStart = clock();
+
   // Variables
-  Grid grid_0(nx,ny,dx,dy), grid_1(nx,ny,dx,dy), grid_2(nx,ny,dx,dy); // grid to contain the intial boundary conditions, grid for n and n+1.
-  Grid per(nx,ny,dx,dy);
+  Grid grid_0(nx,ny,dx,dy), grid_1(nx,ny,dx,dy), grid_2(nx,ny,dx,dy); // grid to contain the intial boundary conditions, grid for n and n+1.  
+  float per[nx][ny];
+  
   // grid with initial boundary conditions
   for ( int j=0; j < ny; j++ ){
     for ( int k=0; k < nx; k++ ){
       grid_0[j][k] = grid[j][k];
       grid_1[j][k] = grid_0[j][k];
-      per[j][k] = 100;
+      grid_2[j][k] = grid_0[j][k];
+      per[j][k]=0;
 
       if ( std::isnan(grid_1[j][k]) ){
 	      grid_1[j][k]=0;
+        per[j][k] = 100;
       }
     }
   }
@@ -42,12 +50,8 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     for ( int j=0; j < ny; j++ ){
       // iteration over x
       for ( int k=0; k < nx; k++ ){
-	      if ( ! std::isnan(grid_0[j][k])) {
-          grid_2[j][k] = grid_0[j][k];
-        }
-        
-        //else if ( per[j][k] >= 20 ){
-        else {
+	      if ( std::isnan(grid_0[j][k]) && per[j][k] >= 20) {
+
           flag = true;
 	        kMinus = k-1;
           jMinus = j-1;
@@ -93,7 +97,9 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
   if (flag == true) {
     cout << "look " << flag;
   }
-  
+  //print time taken
+  printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+
   return grid_1;
 }
   

@@ -48,7 +48,7 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
 #graphGrid(solvedGrid, "test1")
-graphGrid(solvedSofie, "test2",3)
+graphGrid(solvedSofie, "test2",0)
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
@@ -56,20 +56,24 @@ graphGrid(solvedSofie, "test2",3)
 analytical = plotBoundary(1)
 graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
+total = 0
 
 for i in xrange(solvedSofie.nX()):
     for j in xrange(solvedSofie.nY()):
+        #check you aren't using a nan value
         if not np.isnan(analytical[i][j]):
-            if analytical[i][j] != 0:
-                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
-            elif solvedSofie[i][j] != 0:
-                differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
-            else:
-                differenceGrid[i][j]=0;
+            differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
 
+            #get absolute value of the error
             if differenceGrid[i][j]<0:
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
-graphGrid(differenceGrid, "test4", 0, True)
+            total = total + differenceGrid[i][j]
+
+graphGrid(differenceGrid, "test4", 0, False)
+
+average = float(total / (i*j))
+
+print "The average error is %.3f" % average
 
 del solvedSofie, boundaryGrid, differenceGrid

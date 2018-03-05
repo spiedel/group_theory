@@ -22,7 +22,6 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
     
     nxbin=int(grid.nX())
     nybin=int(grid.nY())
-    print "nxbin = %d" %nxbin
     #comes from a histogram bin rule
     #(on wiki need to find better source)
     
@@ -53,7 +52,7 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
             histo.Fill(float(i)*(xmax-xmin)/grid.nX()+xmin,
                        float(j)*(ymax-ymin)/grid.nY()+ymin,
                        grid[i][j])
-    print "Filed Graph %s successfully" % imgNum
+    print "Filled Graph %s successfully" % imgNum
     #draw graph
     #to plot contour uncomment next 4 comments
     c = TCanvas("c", "Canvas", 800, 800)
