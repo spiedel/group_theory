@@ -101,6 +101,26 @@ Grid grid_input(char fileName[]){
 	  data[i] = a; // put data into array
 	  i = i +1;
 	}
+
+	// minimum and maximum x and y values
+	float x_min, x_max, y_min, y_max;
+	
+	if ( data[1] <= data[3] ){ // if x_0 < x_n
+	  x_min = data[1];
+	  x_max = data[3];
+	}
+	else { // if x_n < x_0
+	  x_min = data[3];
+	  x_max = data[1];
+	}
+	if ( data[2] <= data[4] ){ // if y_0 < y_n
+	  y_min = data[2];
+	  y_max = data[4];
+	}
+	else { // if y_n < y_0
+	  y_min = data[4];
+	  y_max = data[2];
+	}
 	
 	// Put data into grid
 	for (int n=0; n<nx; n++){ // itterate over x and y values / over grid elements
@@ -112,19 +132,27 @@ Grid grid_input(char fileName[]){
 	    //cout << "x= " << x << "\n";
 
 	    if ( data[1] == data[3] ){ // if we have constant x-value
-	      //cout << "? \n";
-	      if ( x >= data[1] - dx/2 && x <= data[1] + dx/2 ){ // for all y-values
-		foo[m][n] = data[5]; // put potential value into relevant grid-elements
+	      if ( x >= data[1] - dx/2 && x <= data[1] + dx/2 ){ // for x within range
+		if ( y >= y_min - dy/2 && y <= y_max + dy/2 ) { // y_min < y < y_max
+		  foo[m][n] = data[5]; // put potential value into relevant grid-elements
+		}
 	      }
 	    }
 	    else if ( data[2] == data[4] ){ // if we have constant y-value
-	      if ( y>= -data[2] - dy/2 && y <= -data[2] + dy/2 ){ // for all x-values, the grid is flipped so the - sign is necessary
-		foo[m][n] = data[5]; // put potential value into relevant grid-elements
+	      if ( y>= -data[2] - dy/2 && y <= -data[2] + dy/2 ){ // within y range, the grid is flipped so the - sign is necessary
+		if ( x >= x_min -dx/2 && x <= x_max + dx/2) { // x_min < x < x_max
+		  foo[m][n] = data[5]; // put potential value into relevant grid-elements
+		}
 	      }
 	    }
-	    else { // if it's a straight line
-	      if ( y + data[2] >= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) - dy/2 && y + data[2] <= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) + dy/2 ){ // equation for straight line between given points
-		foo[m][n] = data[5]; // put potential value into relevant grid-elements. 
+	    else { // if it's a straight line		
+	      if ( y + data[2] >= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) - dy/2 && y + data[2] <= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) + dy/2 ){ // equation for straight line using points
+	       
+		if ( x >= x_min - dx/2 && x <= x_max + dx/2) { // between x-values
+		  if ( y >= y_min - dy/2 && y <= y_max + dy/2 ){ // between y-values
+		    foo[m][n] = data[5]; // put potential value into relevant grid-elements.
+		  }
+		}
 	      } 
 	    }
 	  }

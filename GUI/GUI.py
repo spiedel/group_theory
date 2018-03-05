@@ -1,43 +1,49 @@
 from Tkinter import *
 
-# -------- Variables --------
-"""
-master = tkinter window
-Title = Title for GUI
-"""
 # ------- Functions --------
 # -- Done Button 1
 # this is for after getting x and y range
 def doneGrid(*arg):
-    global mess
+    global mess, grid_x, grid_y, grid_dx, grid_dy # for future use when inputint values on for example lines.
+    global grid1
     
-    if (len(arg[0].get()) != 0 and len(arg[1].get()) != 0 and len(arg[2].get()) != 0 and len(arg[3].get()) !=0 ):
-        file_obj.write(arg[0].get() + " " + arg[1].get() + " " + arg[2].get() + " " + arg[3].get() + "\n")
+    if (len(arg[1].get()) != 0 and len(arg[2].get()) != 0 and len(arg[3].get()) != 0 and len(arg[4].get()) !=0 ):
+        grid_x = float(arg[1].get())
+        grid_dx = float(arg[2].get())
+        grid_y = float(arg[3].get())
+        grid_dy = float(arg[4].get())
+        
+        file_obj.write(arg[1].get() + " " + arg[2].get() + " " + arg[3].get() + " " + arg[4].get() + "\n")
 
         # Remove everything by destroying it
-        for a in arg:
-            a.destroy()
+        for a in range(1,len(arg)):
+            arg[a].destroy()
         
         # Running next step
-        shape_inputs()
+        shape_inputs(arg[0])
     else:
         # message about filling entries
         mess = Label(master, text="All entries need values.")
         mess.grid(row=9,columnspan=6)
 
-def doneGeo(index):
+def doneGeo(index,grid1):
     global mess, done
 
     if index == 1: # Circle
         if (len(ent_r.get()) != 0 and len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_pot.get()) != 0):
-            file_obj.write("1 " + ent_r.get() + " " + ent_x0.get() + " " + ent_y0.get() + " " + ent_pot.get() + "\n")
+            x_0 = ent_x0.get()
+            y_0 = ent_y0.get()
+            r = ent_r.get()
+            file_obj.write("1 " + r + " " + x_0 + " " + y_0 + " " + ent_pot.get() + "\n")
 
             # detroy the widgets
             ent_r.destroy(),ent_x0.destroy(),ent_y0.destroy(),ent_pot.destroy()
             c_r.destroy(), centre.destroy(), pot.destroy(), done.destroy(), exit_btn.destroy(), mess.destroy()
 
             # runing the GUI again
-            shape_inputs()
+            shape_inputs(grid1)
+            # draw on canvas
+            drawing(1,grid1,float(x_0),float(y_0),float(r))
         else:
             # message about filling entries
             mess = Label(master, text= "All entries need values.")
@@ -45,14 +51,43 @@ def doneGeo(index):
         
     elif index == 2: # Line
         if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_xn.get()) != 0 and len(ent_yn.get()) != 0 and len(ent_pot.get()) != 0):
-            file_obj.write("2 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_xn.get() + " " + ent_yn.get() + " " + ent_pot.get() + "\n")
+            # x_0 = +- inf
+            if (ent_x0.get() == "inf"):
+                x_0 = grid_x
+            elif (ent_x0.get() == "-inf"):
+                x_0 = 0-grid_x
+            else:
+                x_0 = ent_x0.get()
+            # y_0 = +- inf
+            if (ent_y0.get() == "inf"):
+                y_0 = grid_y
+            elif (ent_y0.get() == "-inf"):
+                y_0 = 0-grid_y
+            else:
+                y_0 = ent_y0.get()
+            # x_n= +- inf
+            if (ent_xn.get() == "inf"):
+                x_n = grid_x
+            elif (ent_xn.get() == "-inf"):
+                x_n = 0-grid_x
+            else:
+                x_n = ent_xn.get()
+            # y_n = +- inf
+            if (ent_yn.get() == "inf"):
+                y_n = grid_y
+            elif (ent_yn.get() == "-inf"):
+                y_n = 0-grid_y
+            else:
+                y_n = ent_yn.get()
+            
+            file_obj.write("2 " + str(x_0) + " " + str(y_0) + " " + str(x_n) + " " + str(y_n) + " " + ent_pot.get() + "\n")
 
             # destroy the widgets
             ent_x0.destroy(), ent_y0.destroy(), ent_xn.destroy(), ent_yn.destroy(), ent_pot.destroy()
             line_label.destroy(), start_coor.destroy(), end_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
 
             # runing the GUI again
-            shape_inputs()
+            shape_inputs(grid1)
 
         else:
             # message about filling entries
@@ -68,7 +103,7 @@ def doneGeo(index):
             rec_label.destroy(), start_coor.destroy(), side_length.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
 
             # runing the GUI again
-            shape_inputs()
+            shape_inputs(grid1)
 
         else:
             # message about filling entries
@@ -84,22 +119,56 @@ def doneGeo(index):
             point_label.destroy(), start_coor.destroy(), pot.destroy(), done.destroy(),exit_btn.destroy(), mess.destroy()
 
             # runing the GUI again
-            shape_inputs()
+            shape_inputs(grid1)
 
         else:
             # message about filling entries
             mess = Label(master, text= "All entries need values.")
             mess.grid(row=5, column=5,columnspan=2)
-                
+
+
+# --- Drawing on Canvas
+def drawing(*arg):
+    # The function will take in a list of arguments, the first one being an index value indicating geometric shape, second is the grid
+    # the canvas is arranged so that (0,0) is the left-hand upper corner, x increases as you travel right and y increases if you travel down.
+    # The coordinate system is arranged so that the origin (0,0) will have coordinates (canvas_width/2, canvas_height/2).
+    # hence generally if you want a certain coordinate you will need to use the following equation
+    #   Y = (canvas_heigth/2)*(1-y/grid_y) and X = (canvas_width/2)*(1+x/grid_x)
+    global grid1
+    
+    if (arg[0] == 1):
+        # arg[2] = x_0, arg[3] = y_0, arg[4] = r
+        # we create two points on the circle;
+        x_1 = (canvas_width/2)*(1+ (arg[2]-arg[4])/grid_x) # coordinate is x= x_0 - r
+        y_1 = (canvas_height/2)*(1+ (arg[3]-arg[4])/grid_y) # coordinate is y= y_0 - r
+        x_2 = (canvas_width/2)*(1+ (arg[2]+arg[4])/grid_x) # coordinate is x= x_0 + r
+        y_2 = (canvas_width/2)*(1+ (arg[3]+arg[4])/grid_x) # coordinate is y= y_0 + r
+        
+        arg[1].create_oval(x_1,y_1,x_2,y_2, fill="")
+        
+    elif (arg[0] == 2):
+        # arg[1] = x_0, arg[2] = y_0, arg[3] = x_n, arg[4] = y_n
+        
+        grid1.create_line(x_1,y_1,x_n,y_n)
+    
+    elif (arg[0] == 3):
+        # stuff
+        x = 1
+    elif (arg[0] == 4):
+        # arg[1] = x_0, arg[2] = y_0
+        grid1.create_oval(x_0,y_0,x_0,y_0,width=0, fill = 'white')
+        
+
 # --- Getting geometric shapes
-def shape_inputs():
+def shape_inputs(grid1):
     # -- Variables
-    global canvas_height, canvas_width, grid1, geo_shape, circle_btn, line_btn, rec_btn, pnt_btn, exit_btn, done
+    global canvas_height, canvas_width, geo_shape, circle_btn, line_btn, rec_btn, pnt_btn, exit_btn, done
+    #global grid1
     
     # Dimensions and creating layer
     canvas_width = 500
     canvas_height = 500
-    grid1 = Canvas(master,width = canvas_width,height=canvas_height,background="white")
+    #grid1 = Canvas(master,width = canvas_width,height=canvas_height,background="white")
     grid1.grid(row=1,rowspan=7,column=0,columnspan=5)
 
     # Coordinate System
@@ -135,6 +204,7 @@ def shape_inputs():
 def circle():
     # -- Variables
     global circle_label, c_r,ent_r, centre, ent_x0,ent_y0, pot, ent_pot, exit_btn, done
+    global grid1
     
     # remove previous buttons
     geo_shape.destroy(), circle_btn.destroy(), line_btn.destroy(), rec_btn.destroy(), pnt_btn.destroy()
@@ -168,7 +238,7 @@ def circle():
     mess.grid(row=6,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done", command= lambda: doneGeo(1))
+    done = Button(master, text="Done", command= lambda: doneGeo(1,grid1))
     done.grid(row=7,column=5)
     
     # move exit button
@@ -215,7 +285,7 @@ def line():
     mess.grid(row=7,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done", command= lambda: doneGeo(2))
+    done = Button(master, text="Done", command= lambda: doneGeo(2,grid1))
     done.grid(row=8,column=5)
     
     # move exit button
@@ -262,7 +332,7 @@ def rectangle():
     mess.grid(row=7,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done", command= lambda: doneGeo(3))
+    done = Button(master, text="Done", command= lambda: doneGeo(3,grid1))
     done.grid(row=8,column=5)
     
     # move exit button
@@ -301,7 +371,7 @@ def point():
     mess.grid(row=5,columnspan=2)
     
     # Done button
-    done = Button(master, text="Done", command= lambda: doneGeo(4))
+    done = Button(master, text="Done", command= lambda: doneGeo(4,grid1))
     done.grid(row=6,column=5)
     
     # move exit button
@@ -354,9 +424,14 @@ mess.grid(row=9,rowspan=2,columnspan=6)
 exit_btn = Button(master, text="Exit", command=master.destroy)
 exit_btn.grid(row=11,column=3,columnspan=3)
 
+# grid
+canvas_width = 500
+canvas_height = 500
+grid1 = Canvas(master,width = canvas_width,height=canvas_height,background="white")
+
 # Done button
 done = Button(master,text = "Done")
-done = Button(master, text = "Done", command=lambda: doneGrid(ent_x,ent_dx,ent_y,ent_dy,x_range,dx,y_range,dy,done,exit_btn,mess))
+done = Button(master, text = "Done", command=lambda: doneGrid(grid1,ent_x,ent_dx,ent_y,ent_dy,x_range,dx,y_range,dy,done,exit_btn,mess))
 done.grid(row=11,column=0,columnspan=3)
 
 # Run it
