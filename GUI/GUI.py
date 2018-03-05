@@ -8,6 +8,7 @@ def doneGrid(*arg):
     global grid1
     
     if (len(arg[1].get()) != 0 and len(arg[2].get()) != 0 and len(arg[3].get()) != 0 and len(arg[4].get()) !=0 ):
+        # getting values from entries
         grid_x = float(arg[1].get())
         grid_dx = float(arg[2].get())
         grid_y = float(arg[3].get())
@@ -31,6 +32,7 @@ def doneGeo(index,grid1):
 
     if index == 1: # Circle
         if (len(ent_r.get()) != 0 and len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_pot.get()) != 0):
+            # getting values from entries
             x_0 = ent_x0.get()
             y_0 = ent_y0.get()
             r = ent_r.get()
@@ -51,6 +53,7 @@ def doneGeo(index,grid1):
         
     elif index == 2: # Line
         if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_xn.get()) != 0 and len(ent_yn.get()) != 0 and len(ent_pot.get()) != 0):
+            # getting values from the entries and checking for inf
             # x_0 = +- inf
             if (ent_x0.get() == "inf"):
                 x_0 = grid_x
@@ -88,7 +91,9 @@ def doneGeo(index,grid1):
 
             # runing the GUI again
             shape_inputs(grid1)
-
+            # draw on canvas
+            drawing(2,grid1,float(x_0),float(y_0),float(x_n),float(y_n))
+            
         else:
             # message about filling entries
             mess = Label(master, text= "All entries need values.")
@@ -96,7 +101,12 @@ def doneGeo(index,grid1):
             
     elif index == 3: # Rectangle
         if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_dx.get()) != 0 and len(ent_dy.get()) != 0 and len(ent_pot.get()) != 0):
-            file_obj.write("3 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_dx.get() + " " + ent_dy.get() + " " + ent_pot.get() + "\n")
+            x_0 = ent_x0.get()
+            y_0 = ent_y0.get()
+            dx = ent_dx.get()
+            dy = ent_dy.get()
+            
+            file_obj.write("3 " + str(x_0) + " " + str(y_0) + " " + str(dx) + " " + str(dy) + " " + ent_pot.get() + "\n")
 
             # destroy the widgets
             ent_x0.destroy(), ent_y0.destroy(), ent_dx.destroy(), ent_dy.destroy(), ent_pot.destroy()
@@ -104,6 +114,8 @@ def doneGeo(index,grid1):
 
             # runing the GUI again
             shape_inputs(grid1)
+            # draw on canvas
+            drawing(3,grid1,float(x_0),float(y_0),float(dx),float(dy))
 
         else:
             # message about filling entries
@@ -112,7 +124,11 @@ def doneGeo(index,grid1):
         
     elif index == 4: # Point
         if (len(ent_x0.get()) != 0 and len(ent_y0.get()) != 0 and len(ent_pot.get()) != 0):
-            file_obj.write("4 " + ent_x0.get() + " " + ent_y0.get() + " " + ent_pot.get() + "\n")
+            # getting values from entries
+            x_0 = ent_x0.get()
+            y_0 = ent_y0.get()
+            
+            file_obj.write("4 " + str(x_0) + " " + str(y_0) + " " + ent_pot.get() + "\n")
 
             # destroy the widgets
             ent_x0.destroy(), ent_y0.destroy(), ent_pot.destroy()
@@ -120,6 +136,9 @@ def doneGeo(index,grid1):
 
             # runing the GUI again
             shape_inputs(grid1)
+            # draw on canvas
+            drawing(4,grid1,float(x_0),float(y_0),float(x_0),float(y_0))
+
 
         else:
             # message about filling entries
@@ -140,23 +159,39 @@ def drawing(*arg):
         # arg[2] = x_0, arg[3] = y_0, arg[4] = r
         # we create two points on the circle;
         x_1 = (canvas_width/2)*(1+ (arg[2]-arg[4])/grid_x) # coordinate is x= x_0 - r
-        y_1 = (canvas_height/2)*(1+ (arg[3]-arg[4])/grid_y) # coordinate is y= y_0 - r
+        y_1 = (canvas_height/2)*(1 - (arg[3]-arg[4])/grid_y) # coordinate is y= y_0 - r
         x_2 = (canvas_width/2)*(1+ (arg[2]+arg[4])/grid_x) # coordinate is x= x_0 + r
-        y_2 = (canvas_width/2)*(1+ (arg[3]+arg[4])/grid_x) # coordinate is y= y_0 + r
+        y_2 = (canvas_width/2)*(1 - (arg[3]+arg[4])/grid_x) # coordinate is y= y_0 + r
         
         arg[1].create_oval(x_1,y_1,x_2,y_2, fill="")
         
     elif (arg[0] == 2):
-        # arg[1] = x_0, arg[2] = y_0, arg[3] = x_n, arg[4] = y_n
+        # arg[2] = x_0, arg[3] = y_0, arg[4] = x_n, arg[5] = y_n
+        x_1 = (canvas_width/2)*(1+ arg[2]/grid_x)
+        y_1 = (canvas_height/2)*(1 - arg[3]/grid_y) #minus because of flipped coordinates for y
+        x_2 = (canvas_width/2)*(1+ arg[4]/grid_x)
+        y_2 = (canvas_height/2)*(1 - arg[5]/grid_y) 
         
-        grid1.create_line(x_1,y_1,x_n,y_n)
+        arg[1].create_line(x_1,y_1,x_2,y_2)
     
     elif (arg[0] == 3):
-        # stuff
-        x = 1
+        # arg[2] = x_0, arg[3] = y_0, arg[4] = x-sidelength, arg[5] = y-sidelength
+        # we use the left-hand upper corner and the right-hand bottom corner
+        x_1 = (canvas_width/2)*(1+ arg[2]/grid_x)
+        y_1 = (canvas_height/2)*(1 - arg[3]/grid_y)
+        x_2 = (canvas_width/2)*(1+ (arg[2]+arg[4])/grid_x)
+        y_2 = (canvas_height/2)*(1 - (arg[3]-arg[5])/grid_y)
+
+        arg[1].create_rectangle(x_1,y_1,x_2,y_2)
+        
+        
     elif (arg[0] == 4):
-        # arg[1] = x_0, arg[2] = y_0
-        grid1.create_oval(x_0,y_0,x_0,y_0,width=0, fill = 'white')
+        # arg[2] = x_0, arg[3] = y_0
+        # we create a circle with the same two coordinates
+        x_1 = (canvas_width/2)*(1+ arg[2]/grid_x)
+        y_1 = (canvas_height/2)*(1 - arg[3]/grid_y)
+        
+        arg[1].create_oval(x_1,y_1,x_1,y_1,width=0.2, fill = 'white')
         
 
 # --- Getting geometric shapes
@@ -172,8 +207,8 @@ def shape_inputs(grid1):
     grid1.grid(row=1,rowspan=7,column=0,columnspan=5)
 
     # Coordinate System
-    grid1.create_line(250,0,250,500)
-    grid1.create_line(0,250,500,250)
+    grid1.create_line(250,0,250,500,width=1.5)
+    grid1.create_line(0,250,500,250,width=1.5)
     
     # Geometric shapes 
     geo_shape = Label(master, text="Geometric Shapes", anchor = "center", font = ("Times",18))
