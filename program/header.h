@@ -4,7 +4,7 @@
 #ifndef INPUT_H_INCLUDED
 #define INPUT_H_INCLUDED
 
-Grid grid_input(int nx, int ny, float dx, float dy, char fileName[]);
+Grid grid_input(char fileName[]);
 
 #endif
 
