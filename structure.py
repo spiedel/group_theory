@@ -13,13 +13,12 @@ if cmd_subfolder not in sys.path:
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
-#gROOT.LoadMacro('program/header.h')
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 #gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, grid_input, numerical_solution
+from ROOT import Grid, grid_input, numerical_solution, analytical_fill_1
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -56,7 +55,7 @@ graphGrid(solvedSofie, "test2",0)
 
 ####################################################################
 #analysis
-analytical = plotBoundary(1)
+analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 total = 0

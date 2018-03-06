@@ -20,12 +20,20 @@ using namespace std;
 Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
   // Read from file
   ifstream inFile;
-  inFile.open("program/conditions1.txt"); // open file
+  inFile.open("program/conditions.txt"); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers from file
   float a;
   string line;
+
+  getline(inFile,line); // get line from file
+  stringstream ss(line);
+
+  while (ss >> a){
+    cout << "! ";
+  }
+  cout << "\n";
 
   // variables for getting info
   float data[5] = { 1,0,0,0,0 }; // empty array to contain info about circle
@@ -37,6 +45,8 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
   while (! inFile.eof() ){ // until the end of the file
     getline(inFile,line); // get each line from the fileb
     
+    cout << line << "\n";
+
     stringstream ss(line); // put the line segments into strings
     
     while (ss >> a){ // if the strings can be put into the float
@@ -52,7 +62,25 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       j = j+1; 
     }
   }
-  
+
+  for (int i=0; i < 2; i++){
+    cout << radii[i] << " ";
+  }
+  cout << "\n";
+
+  float temp;
+  if (radii[0] > radii[1]) {
+      temp = radii[1];
+      radii[1] = radii[0];
+      radii[0] = temp;
+    }
+
+  if (potentials[0] > potentials[1]) {
+      temp = potentials[1];
+      potentials[1] = potentials[0];
+      potentials[0] = temp;
+    }
+
   // filling in potential using analytical solution  
   for (int n=0; n<nx; n++){ // itterate over x-values
     float x = dx*((float)n - ((float)nx-1)*0.5); // x = n*dx - (1/2)*dx*(nx-1)      (nx-1) in order to include 0.
@@ -65,6 +93,7 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       }
       else if (radii[0] < sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) < radii[1]){
 	      grid[m][n] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
+	      cout << "Doing this" << endl;
       }
       if ( (radii[1]-dx/2) <= sqrt(pow(x,2) + pow(y,2)) && (radii[1]+dx/2) >= sqrt(pow(x,2) + pow(y,2)) ){
 	grid[m][n] = potentials[1];
