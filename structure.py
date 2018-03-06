@@ -57,6 +57,7 @@ analytical = plotBoundary(1)
 graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 total = 0
+count = 0
 
 for i in xrange(solvedSofie.nX()):
     for j in xrange(solvedSofie.nY()):
@@ -69,10 +70,11 @@ for i in xrange(solvedSofie.nX()):
                 differenceGrid[i][j] = -1. * differenceGrid[i][j]
 
             total = total + differenceGrid[i][j]
+            count+= 1
 
 graphGrid(differenceGrid, "test4", 0, False)
 
-average = float(total / (i*j))
+average = float(total / count)
 
 print "The average error is %.3f" % average
 

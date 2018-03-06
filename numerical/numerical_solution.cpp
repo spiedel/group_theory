@@ -94,9 +94,6 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
 
-  if (flag == true) {
-    cout << "look " << flag;
-  }
   //print time taken
   printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 

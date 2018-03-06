@@ -43,8 +43,6 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
                  nxbin,xmin,xmax, #xbin,xrange
                  nybin,ymin,ymax) #ybin,yrange
 
-    print "Initialied graph %s" %imgNum
-
     #fill graph with weights from array. The total in each bin will be the sum of the squares of the weights
     #x,y values from min to max, increment (max-min)/array size 
     for i in xrange(grid.nX()):
@@ -52,7 +50,6 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
             histo.Fill(float(i)*(xmax-xmin)/grid.nX()+xmin,
                        float(j)*(ymax-ymin)/grid.nY()+ymin,
                        grid[i][j])
-    print "Filled Graph %s successfully" % imgNum
     #draw graph
     #to plot contour uncomment next 4 comments
     c = TCanvas("c", "Canvas", 800, 800)
