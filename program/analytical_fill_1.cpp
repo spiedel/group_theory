@@ -20,7 +20,7 @@ using namespace std;
 Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
   // Read from file
   ifstream inFile;
-  inFile.open("analytical_testing_1/conditions1.txt"); // open file
+  inFile.open("program/conditions1.txt"); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers from file
@@ -43,8 +43,8 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       int i=1; // itteration variable
       
       while (ss >> a){ // continue to look through line for number
-	data[i] = a; // put data into array
-	i = i +1;
+	      data[i] = a; // put data into array
+	      i = i+1;
       }
       
       radii[j] = data[1];
@@ -61,10 +61,10 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       float y = dy*((float)m - ((float)ny-1)*0.5);
       
       if (0 <= sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) <= (radii[0]+dx/2)){
-	grid[m][n] = potentials[0];
+	      grid[m][n] = potentials[0];
       }
       else if (radii[0] < sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) < radii[1]){
-	grid[m][n] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
+	      grid[m][n] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
       }
       if ( (radii[1]-dx/2) <= sqrt(pow(x,2) + pow(y,2)) && (radii[1]+dx/2) >= sqrt(pow(x,2) + pow(y,2)) ){
 	grid[m][n] = potentials[1];

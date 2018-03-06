@@ -3,7 +3,6 @@
 //solving the equation using the method from ocw.usu.edu/Civil_and_Enviromental_Engineering
 
 #include "gridExamples/ExampleGrid.h"
-#include "header.h"
 
 #include<iostream>
 #include<cmath>
