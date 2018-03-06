@@ -4,35 +4,38 @@
 #need to look into __init__ files
 import sys, os, inspect
 cmd_subfolder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]) + "/root")
+cmd_subfolder_1 = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]) + "/program")
 if cmd_subfolder not in sys.path:
     sys.path.insert(0, cmd_subfolder)
+    sys.path.insert(0, cmd_subfolder_1)
 
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('gridExamples/ExampleGrid.h')
-gROOT.LoadMacro('program/script.cpp') 
+gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
 #gROOT.LoadMacro('program/header.h')
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 #gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, plotBoundary, numerical_solution
+from ROOT import Grid, grid_input, numerical_solution
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
 from graphModule import graphGrid
+#import GUI
 
 import time
 import numpy as np
 
 #####################################################################
 
-#input and parser
-boundaryGrid = plotBoundary()
-graphGrid(boundaryGrid, "test")
 
+#input and parser
+boundaryGrid = grid_input('program/conditions.txt')
+graphGrid(boundaryGrid, "test")
+print "This"
 #####################################################################
 
 #solver

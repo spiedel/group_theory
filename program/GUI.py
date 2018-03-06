@@ -421,7 +421,7 @@ def point():
     
 # ----------------- Program -------------------
 # --- File
-file_obj = open("conditions.txt","w")
+file_obj = open("program/conditions.txt","w")
 
 # Top
 master = Tk()
