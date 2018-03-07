@@ -18,7 +18,7 @@ gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 #gROOT.LoadMacro('LaplaceEqnSolver.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, grid_input, numerical_solution, analytical_fill_1
+from ROOT import Grid, grid_input, numerical_solution, analytical_fill_1, analytical_fill_2
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -34,7 +34,6 @@ import numpy as np
 #input and parser
 boundaryGrid = grid_input('program/conditions.txt')
 graphGrid(boundaryGrid, "test")
-print "This"
 #####################################################################
 
 #solver

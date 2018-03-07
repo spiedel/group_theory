@@ -46,8 +46,8 @@ Grid grid_input(char fileName[]){
     q = q+1;
   }
   
-  float nx = (2*NX+1)/dx;
-  float ny = (2*NY+1)/dy;
+  float nx = (2*NX)/dx;
+  float ny = (2*NY)/dy;
 
   // initialise grid
   Grid foo (nx,ny,dx,dy);

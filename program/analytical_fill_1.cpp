@@ -28,12 +28,6 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
   string line;
 
   getline(inFile,line); // get line from file
-  stringstream ss(line);
-
-  while (ss >> a){
-    cout << "! ";
-  }
-  cout << "\n";
 
   // variables for getting info
   float data[5] = { 1,0,0,0,0 }; // empty array to contain info about circle
@@ -63,11 +57,6 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
 
-  for (int i=0; i < 2; i++){
-    cout << radii[i] << " ";
-  }
-  cout << "\n";
-
   float temp;
   if (radii[0] > radii[1]) {
       temp = radii[1];
@@ -93,7 +82,6 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       }
       else if (radii[0] < sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) < radii[1]){
 	      grid[m][n] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
-	      cout << "Doing this" << endl;
       }
       if ( (radii[1]-dx/2) <= sqrt(pow(x,2) + pow(y,2)) && (radii[1]+dx/2) >= sqrt(pow(x,2) + pow(y,2)) ){
 	grid[m][n] = potentials[1];

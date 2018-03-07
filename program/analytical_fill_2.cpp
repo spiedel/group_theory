@@ -20,12 +20,14 @@ using namespace std;
 Grid analytical_fill_2(int nx, int ny, float dx, float dy, Grid grid){
   // Read from file
   ifstream inFile;
-  inFile.open("analytical_testing_2/conditions2.txt"); // open file
+  inFile.open("program/conditions.txt"); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers from file
   float a;
   string line;
+
+  getline(inFile,line); //first line not needed
 
   // variables for getting info
   float data[6] = {1,0,0,0,0,0}; 

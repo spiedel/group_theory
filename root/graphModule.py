@@ -52,9 +52,10 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
                        grid[i][j])
     #draw graph
     #to plot contour uncomment next 4 comments
-    c = TCanvas("c", "Canvas", 800, 800)
+    c = TCanvas("c", "Canvas", 850, 850)
     if graphType == 0:
         histo.Draw("Colz") #2d heatmap
+        c.SetRightMargin(0.13)
     elif graphType == 1:
         histo.Draw("Cont1") #contour
     elif graphType == 2:
