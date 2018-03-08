@@ -4,7 +4,6 @@
 
 // header files
 #include "ExampleGrid.h"
-
 // other stuff to be included
 //#include <iostream> // terminal io
 //#include <fstream> // file io
@@ -12,7 +11,6 @@
 #include <cmath> 
 #include <math.h>
 #include <time.h>
-
 
 using namespace std;
 
@@ -42,9 +40,9 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
 
   float lambda=0.0; // over-relaxation constant
   int n_max = 5000; // maximum number of iterations.
-  int kPlus,kMinus,jPlus,jMinus;
+  int kPlus,kMinus,jPlus,jMinus, n;
   bool flag=false;
-  for (int n=0; n<n_max; n++) {
+  for (n=0; n<n_max; n++) {
     flag = false;
     // iteration over y
     for ( int j=0; j < ny; j++ ){
@@ -74,19 +72,20 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
 
 	        // if there is no initial boundary condition, fill in grid using equation
 	        grid_2[j][k]=grid_1[j][k] +(lambda+1)*( (0.25)*(grid_1[jPlus][k]+grid_1[jMinus][k] + grid_1[j][kPlus]+grid_1[j][kMinus]) - grid_1[j][k]);
-          /*if (grid_2[j][k] != 0) {         
-            per[j][k] = 100. * (grid_1[j][k] + grid_2[j][k]) / grid_2[j][k];
-            if (per[j][k] < 0) {
-              per[j][k] = - per[j][k];
+          /*if (n%50==0) {
+            if (grid_2[j][k] != 0) {         
+              per[j][k] = 100. * (grid_1[j][k] + grid_2[j][k]) / grid_2[j][k];
             }
           }*/
 	      }
       }
     }
-    // update grid_1 to be grid_2 for next iteration
-    for ( int j=0; j < ny; j++ ){
-      for ( int k=0; k < nx; k++ ){
-	      grid_1[j][k] = grid_2[j][k];
+    if (n != n_max-1) {
+      // update grid_1 to be grid_2 for next iteration
+      for ( int j=0; j < ny; j++ ){
+        for ( int k=0; k < nx; k++ ){
+	        grid_1[j][k] = grid_2[j][k];
+        }
       }
     }
     if ( flag == false ) {
@@ -94,10 +93,27 @@ Grid numerical_solution(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
 
+float diff, maxDiff = 0.;
+  for ( int j=0; j < ny; j++ ){
+    for ( int k=0; k < nx; k++ ){
+      if ( ! std::isnan(grid_1[j][k]) ) {
+        diff = grid_1[j][k] - grid_2[j][k];
+        if (diff < 0) {
+          diff = -diff;
+        }
+
+        if (diff > maxDiff) {
+          maxDiff = diff;
+        }
+      }
+    }
+  }
+
+  printf("Maximum difference is: %.6f\n", maxDiff);
   //print time taken
   printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
-  return grid_1;
+  return grid_2;
 }
   
   

@@ -3,3 +3,4 @@ root/graphs/
 *.pyc
 2*.png
 *~
+status.log

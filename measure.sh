@@ -10,6 +10,8 @@ timestamp() {
 }
 
 rm status.log
+touch status.log
+python structure.py
 while ( pgrep structure.py >/dev/null 2>&1 ) ; do
 #cpu usage
 echo -n "$(timestamp) linux::systemstatus::cpu " >> $LOGPATH

@@ -46,11 +46,12 @@ Grid grid_input(char fileName[]){
     q = q+1;
   }
   
-  float nx = (2*NX)/dx;
-  float ny = (2*NY)/dy;
+  int nx = ceil((2*NX)/dx);
+  int ny = ceil((2*NY)/dy);
 
   // initialise grid
   Grid foo (nx,ny,dx,dy);
+
   
   // fill grid with NAN
   for (int i=0; i<nx; i++){
