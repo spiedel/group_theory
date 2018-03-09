@@ -15,12 +15,14 @@
 using namespace std;
 
 // Function
-Grid gauss_seidel(int nx, int ny, float dx, float dy, Grid grid){
+Grid gauss_seidel(Grid grid, int n_max, double tolerance){
   //timer
   clock_t tStart = clock();
 
   // Variables
   //grids to contain the solution and the second to last iteration
+  int nx = grid.nX(), ny = grid.nY();
+  double dx = grid.dX(), dy = grid.dY();
   Grid grid_solution(nx,ny,dx,dy), grid_second_last_iteration(nx,ny,dx,dy);  
 
   
@@ -35,10 +37,17 @@ Grid gauss_seidel(int nx, int ny, float dx, float dy, Grid grid){
     }
   }
 
-  int n_max = 4000; // maximum number of iterations.
-  int kAfter,kBefore,jAfter,jBefore, n;
-  
-  for (n=0; n<n_max; n++) {
+  int kAfter,kBefore,jAfter,jBefore, n=0;
+  double err, err_max = 1, current_grid_value;
+
+  while (err_max > tolerance && n < n_max) {
+
+    grid_second_last_iteration = grid_solution;
+
+    //increment iteration number and reset maximum error for this iteration
+    err_max = 0;
+    n++;
+    
     // iteration over y
     for ( int j=0; j<nx; j++ ){
       // iteration over x
@@ -64,19 +73,21 @@ Grid gauss_seidel(int nx, int ny, float dx, float dy, Grid grid){
             jAfter = j-1;
           }
 
+          current_grid_value = grid_solution[j][k];
 	        // if there is no initial boundary condition, fill in grid using equation
 	        grid_solution[j][k]=0.25*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
                   + grid_solution[j][kAfter]+grid_solution[j][kBefore]);
          
+          err = abs(current_grid_value - grid_solution[j][k]);
+          if ( err > err_max ) {
+            err_max = err;
+          }
+
           //leah equation
           //solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
           //beta*beta*(solution[i][jMinus]+intermediate[i][jPlus]))/
           //(2*(1+beta*beta));
         }
-      }
-
-      if ( n == n_max-1 ) {
-        grid_second_last_iteration = grid_solution;
       }
     }
   }
@@ -99,6 +110,7 @@ float diff, maxDiff = 0.;
 
   printf("Maximum difference is: %.6f\n", maxDiff);
   //print time taken
+  cout << "Number of iterations needed: " << n << endl;
   printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
   return grid_solution;

@@ -37,7 +37,8 @@ graphGrid(boundaryGrid, "test")
 #####################################################################
 
 #solver
-solvedGrid = gauss_seidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+#solvedGrid = numerical_solution(boundaryGrid, 5000, 0.000001)
+solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
 
 #####################################################################
 
