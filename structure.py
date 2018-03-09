@@ -37,10 +37,7 @@ graphGrid(boundaryGrid, "test")
 #####################################################################
 
 #solver
-#solvedGrid = solve(boundaryGrid)
-#solvedGauss = GaussSeidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
-
 #####################################################################
 
 #plotter
@@ -48,13 +45,12 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-#graphGrid(solvedGrid, "test1")
-graphGrid(solvedSofie, "test2",0)
+graphGrid(solvedSofie, "test2",1)
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
-analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+analytical = analytical_fill_2(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
 total = 0
