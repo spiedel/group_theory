@@ -16,9 +16,9 @@ gROOT.LoadMacro('gridExamples/ExampleGrid.h')
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
-#gROOT.LoadMacro('LaplaceEqnSolver.cpp')
+gROOT.LoadMacro('numerical/GaussSeidel.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, grid_input, numerical_solution, analytical_fill_1, analytical_fill_2
+from ROOT import Grid, grid_input, numerical_solution, gauss_seidel, analytical_fill_1, analytical_fill_2
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -37,7 +37,8 @@ graphGrid(boundaryGrid, "test")
 #####################################################################
 
 #solver
-solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+solvedGrid = gauss_seidel(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+
 #####################################################################
 
 #plotter
@@ -45,22 +46,22 @@ solvedSofie = numerical_solution(boundaryGrid.nX(), boundaryGrid.nY(), boundaryG
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
 
-graphGrid(solvedSofie, "test2",1)
+graphGrid(solvedGrid, "test2",0)
 #graphGrid(solvedGauss, "something")
 
 ####################################################################
 #analysis
-analytical = analytical_fill_2(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 graphGrid(analytical, "test3", 0)
-differenceGrid = Grid(solvedSofie.nX(), solvedSofie.nY(), solvedSofie.dX(), solvedSofie.dY())
+differenceGrid = Grid(solvedGrid.nX(), solvedGrid.nY(), solvedGrid.dX(), solvedGrid.dY())
 total = 0
 count = 0
 
-for i in xrange(solvedSofie.nX()):
-    for j in xrange(solvedSofie.nY()):
+for i in xrange(solvedGrid.nX()):
+    for j in xrange(solvedGrid.nY()):
         #check you aren't using a nan value
         if not np.isnan(analytical[i][j]):
-            differenceGrid[i][j] = (analytical[i][j]-solvedSofie[i][j])
+            differenceGrid[i][j] = (analytical[i][j]-solvedGrid[i][j])
 
             #get absolute value of the error
             if differenceGrid[i][j]<0:
@@ -75,4 +76,4 @@ average = float(total / count)
 
 print "The average error is %.3f" % average
 
-del solvedSofie, boundaryGrid, differenceGrid
+del solvedGrid, boundaryGrid, differenceGrid
