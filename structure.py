@@ -18,7 +18,8 @@ gROOT.LoadMacro('program/analytical_fill_1.cpp')
 gROOT.LoadMacro('program/analytical_fill_2.cpp')
 gROOT.LoadMacro('numerical/GaussSeidel.cpp')
 gROOT.LoadMacro('numerical/numerical_solution.cpp')
-from ROOT import Grid, grid_input, numerical_solution, gauss_seidel, analytical_fill_1, analytical_fill_2
+gROOT.LoadMacro('numerical/SOR.cpp')
+from ROOT import Grid, grid_input, numerical_solution, gauss_seidel, analytical_fill_1, analytical_fill_2, SOR
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -38,7 +39,8 @@ graphGrid(boundaryGrid, "test")
 
 #solver
 #solvedGrid = numerical_solution(boundaryGrid, 5000, 0.000001)
-solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
+#solvedGrid = gauss_seidel(boundaryGrid, 100000, 0.00001)
+solvedGrid = SOR(boundaryGrid, 5000, 0.00001)
 
 #####################################################################
 
