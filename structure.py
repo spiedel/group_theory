@@ -39,8 +39,8 @@ graphGrid(boundaryGrid, "test")
 
 #solver
 #solvedGrid = numerical_solution(boundaryGrid, 5000, 0.000001)
-#solvedGrid = gauss_seidel(boundaryGrid, 100000, 0.00001)
-solvedGrid = SOR(boundaryGrid, 5000, 0.00001)
+#solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
+solvedGrid = SOR(boundaryGrid, 5000, 0.000001)
 
 #####################################################################
 
@@ -48,13 +48,13 @@ solvedGrid = SOR(boundaryGrid, 5000, 0.00001)
 
 #for now this will make it save the output graph under a file decribing current date and time. We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
-
 graphGrid(solvedGrid, "test2",0)
 #graphGrid(solvedGauss, "something")
+print
 
 ####################################################################
 #analysis
-analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+analytical = analytical_fill_2(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
 graphGrid(analytical, "test3", 0)
 differenceGrid = Grid(solvedGrid.nX(), solvedGrid.nY(), solvedGrid.dX(), solvedGrid.dY())
 total = 0

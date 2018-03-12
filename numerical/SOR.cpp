@@ -22,8 +22,8 @@ Grid SOR(Grid grid, int n_max, double tolerance){
   // Variables
   //grids to contain the solution and the second to last iteration
   int nx = grid.nX(), ny = grid.nY();
-  double dx = grid.dX(), dy = grid.dY(), omega=1.9;
-  double beta = dx/dy, denom = 2*(1+beta*beta);
+  double dx = grid.dX(), dy = grid.dY(), omega=1.89;
+  double beta = dx/dy, denom = 1/(2*(1+beta*beta));
   Grid grid_solution(nx,ny,dx,dy), grid_second_last_iteration(nx,ny,dx,dy);  
 
   
@@ -76,18 +76,19 @@ Grid SOR(Grid grid, int n_max, double tolerance){
 
           current_grid_value = grid_solution[j][k];
 	        // if there is no initial boundary condition, fill in grid using equation
-	        grid_solution[j][k]=0.25*omega*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
-                  + grid_solution[j][kAfter]+grid_solution[j][kBefore]) + (1-omega)*grid_solution[j][k];
+	        // grid_solution[j][k]=omega*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
+          //         + beta*beta*(grid_solution[j][kAfter]+grid_solution[j][kBefore]))*denom 
+          //         + (1-omega)*grid_solution[j][k];
+
+          grid_solution[j][k]=0.25*omega*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
+                  + grid_solution[j][kAfter]+grid_solution[j][kBefore]) + (1-omega)*current_grid_value;
+
+
          
           err = abs(current_grid_value - grid_solution[j][k]);
           if ( err > err_max ) {
             err_max = err;
           }
-
-          //leah equation
-          //solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
-          //beta*beta*(solution[i][jMinus]+intermediate[i][jPlus]))/
-          //(2*(1+beta*beta));
         }
       }
     }

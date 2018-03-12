@@ -70,7 +70,7 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
     img.WriteImage(pathName)
 
     #set to stop on keypress
-    #raw_input("Please press any key to quit")
+    raw_input("Please press any key to quit")
 
     c.Close()
     del c

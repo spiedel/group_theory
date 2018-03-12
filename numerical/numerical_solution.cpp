@@ -74,8 +74,9 @@ Grid numerical_solution(Grid grid, int n_max, double tolerance){
             jAfter = j-1;
           }
 
-	        // if there is no initial boundary condition, fill in grid using equation
-	        grid_after[j][k]=grid_before[j][k] +(lambda+1)*((0.25)*(grid_before[jAfter][k]+grid_before[jBefore][k] + grid_before[j][kAfter]+grid_before[j][kBefore]) - grid_before[j][k]);
+	        current_grid_value = grid_before[j][k];
+          // if there is no initial boundary condition, fill in grid using equation
+	        grid_after[j][k]=current_grid_value +(lambda+1)*((0.25)*(grid_before[jAfter][k]+grid_before[jBefore][k] + grid_before[j][kAfter]+grid_before[j][kBefore]) - grid_before[j][k]);
          
           err = grid_after[j][k] - grid_before[j][k];
           if ( err > err_max ) {
@@ -90,21 +91,21 @@ Grid numerical_solution(Grid grid, int n_max, double tolerance){
     }
   }
 
-// float diff, maxDiff = 0.;
-//   for ( int j=0; j < ny; j++ ){
-//     for ( int k=0; k < nx; k++ ){
-//       if ( ! std::isnan(grid_before[j][k]) ) {
-//         diff = grid_before[j][k] - grid_after[j][k];
-//         if (diff < 0) {
-//           diff = -diff;
-//         }
+float diff, maxDiff = 0.;
+  for ( int j=0; j < ny; j++ ){
+    for ( int k=0; k < nx; k++ ){
+      if ( ! std::isnan(grid_before[j][k]) ) {
+        diff = grid_before[j][k] - grid_after[j][k];
+        if (diff < 0) {
+          diff = -diff;
+        }
 
-//         if (diff > maxDiff) {
-//           maxDiff = diff;
-//         }
-//       }
-//     }
-//   }
+        if (diff > maxDiff) {
+          maxDiff = diff;
+        }
+      }
+    }
+  }
 
   cout << "Number of iterations needed: " << n << endl;
   printf("Maximum difference is: %.6f\n", err_max);

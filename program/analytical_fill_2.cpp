@@ -20,7 +20,7 @@ using namespace std;
 Grid analytical_fill_2(int nx, int ny, float dx, float dy, Grid grid){
   // Read from file
   ifstream inFile;
-  inFile.open("program/conditions.txt"); // open file
+  inFile.open("program/conditions2.txt"); // open file
   if (!inFile){ cout << "Unable to open file \n"; exit(1);} // if the file can't be opened
 
   // variables for getting numbers from file
@@ -44,17 +44,17 @@ Grid analytical_fill_2(int nx, int ny, float dx, float dy, Grid grid){
       int i=1; // itteration variable
       
       while (ss >> a){ // continue to look through line for number
-	data[i] = a; // put data into array
-	i = i +1;
+	      data[i] = a; // put data into array
+	      i = i +1;
       }
 
       // assuming centered around origin
       if (j==0){
-	info[0]=data[1];
+	      info[0]=data[1];
       }
       else if (j==1){
-	info[1]=abs(data[1]);
-	info[2]=data[5];
+	      info[1]=abs(data[1]);
+	      info[2]=data[5];
       }
       j=j+1;
     }
@@ -76,11 +76,11 @@ Grid analytical_fill_2(int nx, int ny, float dx, float dy, Grid grid){
       }
 
       //positive line
-      else if ( y < -info[1]+dx/2 && y > -info[1]-dx/2 ){
+      else if ( y < -info[1]+dx && y > -info[1]-dx ){
             grid[m][n]=info[2];
       }
       ///negative line
-      else if ( y < info[1]+dx/2 && y > info[1]-dx/2 ){
+      else if ( y < info[1]+dx && y > info[1]-dx ){
             grid[m][n]=-info[2];
       }
       else {
