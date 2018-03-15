@@ -8,11 +8,14 @@ def doneGrid(*arg):
     global grid1
     
     if (len(arg[1].get()) != 0 and len(arg[2].get()) != 0 and len(arg[3].get()) != 0 and len(arg[4].get()) !=0 ):
+    
         # getting values from entries
         grid_x = float(arg[1].get())
         grid_dx = float(arg[2].get())
         grid_y = float(arg[3].get())
         grid_dy = float(arg[4].get())
+
+        print(str(grid_x) + " " + str(grid_dx) + " " + str(grid_y) + " " + str(grid_dy) + "\n")
         
         file_obj.write(arg[1].get() + " " + arg[2].get() + " " + arg[3].get() + " " + arg[4].get() + "\n")
 
@@ -158,10 +161,15 @@ def drawing(*arg):
     if (arg[0] == 1):
         # arg[2] = x_0, arg[3] = y_0, arg[4] = r
         # we create two points on the circle;
-        x_1 = (canvas_width/2)*(1+ (arg[2]-arg[4])/grid_x) # coordinate is x= x_0 - r
+        print(str(arg[2]) + " " + str(arg[3]) + " " + str(arg[4]) + "\n")
+        print(str(canvas_width) + " " + str(canvas_height) + " " + str(grid_x) + " " + str(grid_y) + "\n")
+        
+        x_1 = (canvas_width/2)*(1 + (arg[2]-arg[4])/grid_x) # coordinate is x= x_0 - r
         y_1 = (canvas_height/2)*(1 - (arg[3]-arg[4])/grid_y) # coordinate is y= y_0 - r
-        x_2 = (canvas_width/2)*(1+ (arg[2]+arg[4])/grid_x) # coordinate is x= x_0 + r
-        y_2 = (canvas_width/2)*(1 - (arg[3]+arg[4])/grid_x) # coordinate is y= y_0 + r
+        x_2 = (canvas_width/2)*(1 + (arg[2]+arg[4])/grid_x) # coordinate is x= x_0 + r
+        y_2 = (canvas_width/2)*(1 - (arg[3]+arg[4])/grid_y) # coordinate is y= y_0 + r
+
+        print(str(x_1) + " " + str(y_1) + " " + str(x_2) + " " + str(y_2) + "\n")
         
         arg[1].create_oval(x_1,y_1,x_2,y_2, fill="")
         
@@ -207,8 +215,8 @@ def shape_inputs(grid1):
     grid1.grid(row=1,rowspan=7,column=0,columnspan=5)
 
     # Coordinate System
-    grid1.create_line(250,0,250,500,width=1.5)
-    grid1.create_line(0,250,500,250,width=1.5)
+    grid1.create_line(canvas_width/2,0,canvas_width/2,canvas_height,width=1.5)
+    grid1.create_line(0,canvas_height/2,canvas_width,canvas_height/2,width=1.5)
     
     # Geometric shapes 
     geo_shape = Label(master, text="Geometric Shapes", anchor = "center", font = ("Times",18))
@@ -421,7 +429,7 @@ def point():
     
 # ----------------- Program -------------------
 # --- File
-file_obj = open("program/conditions.txt","w")
+file_obj = open("conditions.txt","w")
 
 # Top
 master = Tk()
