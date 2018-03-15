@@ -15,7 +15,10 @@
 using namespace std;
 
 // Function
-Grid numerical_solution(Grid grid, int n_max, double tolerance){
+// grid is the boundary grid, 
+//n_max is maximum number of iterations, 
+//tolerance is the max difference between subsequent iterations
+Grid jacobi(Grid grid, int n_max, double tolerance){
   //timer
   clock_t tStart = clock();
 
@@ -24,7 +27,7 @@ Grid numerical_solution(Grid grid, int n_max, double tolerance){
   double dx = grid.dX(), dy = grid.dY();
   Grid grid_before(nx,ny,dx,dy), grid_after(nx,ny,dx,dy); // grid to contain the intial boundary conditions, grid for n and n+1.
 
-  // grid with initial boundary conditions
+  // fill grid with initial boundary conditions
   for ( int j=0; j < ny; j++ ){
     for ( int k=0; k < nx; k++ ){
       grid_before[j][k] = grid[j][k];

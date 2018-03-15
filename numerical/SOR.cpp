@@ -15,14 +15,18 @@
 using namespace std;
 
 // Function
-Grid SOR(Grid grid, int n_max, double tolerance){
+// grid is the boundary grid, 
+//n_max is maximum number of iterations, 
+//tolerance is the max difference between subsequent iterations
+//omega is the relaxation constant 
+Grid SOR(Grid grid, int n_max, double tolerance, double omega=1.9){
   //timer
   clock_t tStart = clock();
 
   // Variables
   //grids to contain the solution and the second to last iteration
   int nx = grid.nX(), ny = grid.nY();
-  double dx = grid.dX(), dy = grid.dY(), omega=1.89;
+  double dx = grid.dX(), dy = grid.dY();
   double beta = dx/dy, denom = 1/(2*(1+beta*beta));
   Grid grid_solution(nx,ny,dx,dy), grid_second_last_iteration(nx,ny,dx,dy);  
 
@@ -42,8 +46,6 @@ Grid SOR(Grid grid, int n_max, double tolerance){
   double err, err_max = 1, current_grid_value;
 
   while (err_max > tolerance && n < n_max) {
-
-    grid_second_last_iteration = grid_solution;
 
     //increment iteration number and reset maximum error for this iteration
     err_max = 0;
@@ -94,23 +96,7 @@ Grid SOR(Grid grid, int n_max, double tolerance){
     }
   }
 
-float diff, maxDiff = 0.;
-  for ( int j=0; j < ny; j++ ){
-    for ( int k=0; k < nx; k++ ){
-      if ( ! std::isnan(grid_solution[j][k]) ) {
-        diff = grid_solution[j][k] - grid_second_last_iteration[j][k];
-        if (diff < 0) {
-          diff = -diff;
-        }
-
-        if (diff > maxDiff) {
-          maxDiff = diff;
-        }
-      }
-    }
-  }
-
-  printf("Maximum difference is: %.6f\n", maxDiff);
+  printf("Maximum difference is: %.6f\n", err_max);
   //print time taken
   cout << "Number of iterations needed: " << n << endl;
   printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);

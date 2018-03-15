@@ -39,7 +39,7 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
         gStyle.SetOptStat(1)
 
     #define graph
-    histo = TH2D("histo", "Histogram from array;x;y",
+    histo = TH2D("histo", "Error Graph of Problem 2;x;y",
                  nxbin,xmin,xmax, #xbin,xrange
                  nybin,ymin,ymax) #ybin,yrange
 
@@ -62,6 +62,7 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
         histo.Draw("LEGO1") #3d boxes
     elif graphType == 3:
         histo.Draw("ARR") #arrow mode
+
     c.Update()
 
     #save graph as a png file (commented out for now)
