@@ -14,12 +14,12 @@ from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
 gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
 gROOT.LoadMacro('program/grid_input.cpp')
+gROOT.LoadMacro('program/analytical_fill_0.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
-gROOT.LoadMacro('program/analytical_fill_2.cpp')
 gROOT.LoadMacro('numerical/GaussSeidel.cpp')
 gROOT.LoadMacro('numerical/jacobi.cpp')
 gROOT.LoadMacro('numerical/SOR.cpp')
-from ROOT import Grid, grid_input, jacobi, gauss_seidel, analytical_fill_1, analytical_fill_2, SOR
+from ROOT import Grid, grid_input, jacobi, gauss_seidel, analytical_fill_0, analytical_fill_1, SOR
 
 #when it imports the function is runs it from the folder you are in
 #so need to take that into account when writing code to save to a file
@@ -66,8 +66,8 @@ def find_diff_from_analytical(analytical, solvedGrid):
 #input and parser
 #grid_input takes a conditions file as an argument
 #for output from the GUI use "conditions.txt" (the default value with no argument given)
-#if you want to test against an analytical use conditions1.txt or conditions2.txt
-boundaryGrid = grid_input('program/conditions1.txt')
+#if you want to test against an analytical use conditions0.txt or conditions1.txt
+boundaryGrid = grid_input('program/conditions0.txt')
 print "Filled in boundary conditions"
 #####################################################################
 
@@ -89,17 +89,17 @@ graphGrid(solvedGrid, outputFileName,0)
 
 ####################################################################
 #analysis
-#analytical_fill_1 covers problem 0, analytical_fill_2 covers problem one.
-#If you want to use analytical use conditions1.txt or conditions2.txt
+#analytical_fill_0 covers problem 0, analytical_fill_1 covers problem one.
+#If you want to use analytical use conditions0.txt or conditions1.txt
 ifAnalyse = raw_input("Do you want to compare to an analytical soltion? Enter y to continue ")
 if ifAnalyse == "y" or ifAnalyse == "Y":
 
     whichAnalytical = raw_input("Compare to problem 0 or 1? ")
     if whichAnalytical == "0":
-        analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+        analytical = analytical_fill_0(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
         find_diff_from_analytical(analytical, solvedGrid)
     elif whichAnalytical == "1":
-        analytical = analytical_fill_2(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
+        analytical = analytical_fill_1(boundaryGrid.nX(), boundaryGrid.nY(), boundaryGrid.dX(), boundaryGrid.dY(), boundaryGrid)
         find_diff_from_analytical(analytical, solvedGrid)
     else: 
         print "Not a valid analytical result"
