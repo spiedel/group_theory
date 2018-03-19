@@ -7,13 +7,7 @@ from ROOT import gROOT, TCanvas, kBird, TH2D, gStyle, TImage
 # import numpy as np
 import os
 
-
-
-#load grid header file
-#gROOT.LoadMacro('gridExamples/ExampleGrid.h')
-#from ROOT import Grid
-
-def graphGrid(grid, imgNum, graphType=0, stats=False):
+def graphGrid(grid, imgNum, name, graphType=0):
 
     #initialise variables
     nx=grid.nX(); dx=grid.dX(); ny=grid.nY(); dy=grid.dY()
@@ -22,8 +16,6 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
     
     nxbin=int(grid.nX())
     nybin=int(grid.nY())
-    #comes from a histogram bin rule
-    #(on wiki need to find better source)
     
     #for arrow plot
     if graphType == 3:
@@ -35,11 +27,9 @@ def graphGrid(grid, imgNum, graphType=0, stats=False):
     
     gStyle.SetPalette(kBird) #make pretty (set colours)
     gStyle.SetOptStat(0) #hides information about mean x,y ect
-    if stats == True:
-        gStyle.SetOptStat(1)
 
     #define graph
-    histo = TH2D("histo", "Error Graph of Problem 2;x;y",
+    histo = TH2D("histo", name+";x;y",
                  nxbin,xmin,xmax, #xbin,xrange
                  nybin,ymin,ymax) #ybin,yrange
 

@@ -42,6 +42,7 @@ Grid gauss_seidel(Grid grid, int n_max, double tolerance){
 
   int kAfter,kBefore,jAfter,jBefore, n=0;
   double err, err_max = 1, current_grid_value;
+  double beta = dx/dy, denom = 1/(2*(1+beta*beta));
 
   while (err_max > tolerance && n < n_max) {
 
@@ -76,18 +77,14 @@ Grid gauss_seidel(Grid grid, int n_max, double tolerance){
 
           current_grid_value = grid_solution[j][k];
 	        // if there is no initial boundary condition, fill in grid using equation
-	        grid_solution[j][k]=0.25*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
-                  + grid_solution[j][kAfter]+grid_solution[j][kBefore]);
+
+          grid_solution[j][k]=(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
+                   + beta*beta*(grid_solution[j][kAfter]+grid_solution[j][kBefore]))*denom;
          
           err = abs(current_grid_value - grid_solution[j][k]);
           if ( err > err_max ) {
             err_max = err;
           }
-
-          //leah equation
-          //solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
-          //beta*beta*(solution[i][jMinus]+intermediate[i][jPlus]))/
-          //(2*(1+beta*beta));
         }
       }
     }

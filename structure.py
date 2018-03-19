@@ -32,7 +32,7 @@ import numpy as np
 #################################################################################################
 #function to find difference between the analytical and the numberical solutions
 def find_diff_from_analytical(analytical, solvedGrid):
-    graphGrid(analytical, "Analytical", 0)
+    graphGrid(analytical, "Analytical", "Analytical Graph", 0)
     differenceGrid = Grid(solvedGrid.nX(), solvedGrid.nY(), solvedGrid.dX(), solvedGrid.dY())
     total = 0
     count = 0
@@ -50,7 +50,7 @@ def find_diff_from_analytical(analytical, solvedGrid):
                 total = total + differenceGrid[i][j]
                 count+= 1
 
-    graphGrid(differenceGrid, "test4", 0, False)
+    graphGrid(differenceGrid, "Error", "Error Graph", 0)
 
     average = float(total / count)
 
@@ -85,7 +85,7 @@ solvedGrid = SOR(boundaryGrid, 5000, 0.00001, 1.9)
 #for now this will make it save the output graph under a file decribing current date and time. 
 #We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
-graphGrid(solvedGrid, outputFileName,0)
+graphGrid(solvedGrid, outputFileName,"Numerical Solution",0)
 
 ####################################################################
 #analysis

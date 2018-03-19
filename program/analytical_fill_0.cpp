@@ -38,8 +38,6 @@ Grid analytical_fill_0(int nx, int ny, float dx, float dy, Grid grid){
   // reading through file
   while (! inFile.eof() ){ // until the end of the file
     getline(inFile,line); // get each line from the fileb
-    
-    cout << line << "\n";
 
     stringstream ss(line); // put the line segments into strings
     
@@ -88,7 +86,6 @@ Grid analytical_fill_0(int nx, int ny, float dx, float dy, Grid grid){
       }
     }
   }
-  cout << "\n \n";
   
   return grid;
 }

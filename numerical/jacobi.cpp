@@ -40,9 +40,9 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
 
   grid_after = grid_before;
 
-  float lambda=0.0; // over-relaxation constant
   int kAfter,kBefore,jAfter,jBefore, n=0;
-  double err, err_max = 1, current_grid_value;
+  double err, err_max = 1, current_grid_value, next_grid_value; 
+  double beta=nx/ny, denom = 1/(2*(1+beta*beta));
 
   while (err_max > tolerance && n < n_max) {
 
@@ -79,16 +79,14 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
 
 	        current_grid_value = grid_before[j][k];
           // if there is no initial boundary condition, fill in grid using equation
-	        grid_after[j][k]=current_grid_value +(lambda+1)*((0.25)*(grid_before[jAfter][k]+grid_before[jBefore][k] + grid_before[j][kAfter]+grid_before[j][kBefore]) - grid_before[j][k]);
+	        next_grid_value=(grid_before[jAfter][k]+grid_before[jBefore][k]
+                          +beta*beta*(grid_before[j][kAfter]+grid_before[j][kBefore]))*denom;
          
-          err = grid_after[j][k] - grid_before[j][k];
+          grid_after[j][k]=next_grid_value;
+          err = next_grid_value-current_grid_value;
           if ( err > err_max ) {
             err_max = err;
           }
-          //leah equation
-          //solution[i][j] = (intermediate[iMinus][j]+intermediate[iPlus][j]+
-          //beta*beta*(solution[i][jMinus]+intermediate[i][jPlus]))/
-          //(2*(1+beta*beta));
         }
       }
     }

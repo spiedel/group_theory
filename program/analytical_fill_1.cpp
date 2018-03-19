@@ -59,7 +59,6 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       j=j+1;
     }
   }
-  cout << info[0] << " " << info[1] << " " << info[2] << "\n";
   
   // filling in potential using analytical solution
   
@@ -92,7 +91,6 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       }
     }
   }
-  cout << "\n \n";
   
   return grid;
 }
