@@ -67,16 +67,16 @@ def find_diff_from_analytical(analytical, solvedGrid):
 #grid_input takes a conditions file as an argument
 #for output from the GUI use "conditions.txt" (the default value with no argument given)
 #if you want to test against an analytical use conditions0.txt or conditions1.txt
-boundaryGrid = grid_input('program/conditions0.txt')
+boundaryGrid = grid_input('program/conditions1.txt')
 print "Filled in boundary conditions"
-graphGrid(boundaryGrid, "test","test",0)
+#graphGrid(boundaryGrid, "test","test",0)
 #####################################################################
 
 #solver
 #structure is
 #solvedGrid = method(boundaryGrid, n_max, tolerance)
-solvedGrid = jacobi(boundaryGrid, 5000, 0.00001)
-solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
+#solvedGrid = jacobi(boundaryGrid, 5000, 0.00001)
+#solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
 solvedGrid = SOR(boundaryGrid, 5000, 0.00001, 1.9) 
 #last factor is relaxtion constant, optional - default value is 1.9
 print "Solved successfully"

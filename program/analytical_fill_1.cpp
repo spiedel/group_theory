@@ -71,22 +71,22 @@ Grid analytical_fill_1(int nx, int ny, float dx, float dy, Grid grid){
       
       //centre circle
       if (0 <= sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) <= (info[0]+dx/2)){
-	      grid[m][n] = 0;
+	      grid[n][m] = 0;
       }
 
       //positive line
-      else if ( y < -info[1]+dx && y > -info[1]-dx ){
-            grid[m][n]=info[2];
+      else if ( x < -info[1]+dx && x > -info[1]-dx ){
+            grid[n][m]=info[2];
       }
       ///negative line
-      else if ( y < info[1]+dx && y > info[1]-dx ){
-            grid[m][n]=-info[2];
+      else if ( x < info[1]+dx && x > info[1]-dx ){
+            grid[n][m]=-info[2];
       }
       else {
 	      float r = sqrt(pow(x,2)+pow(y,2));
-	      float theta = atan2(x,y);
+	      float theta = atan2(y,x);
             //I removed a factor of 1.5 here?
-	      grid[m][n] = -((info[2])/info[1])*(r)*cos(theta)*(1-(2*pow(info[0],2))/(pow(r,2)+pow(info[0],2)));
+	          grid[n][m] = -((info[2])/info[1])*(r)*cos(theta)*(1-(2*pow(info[0],2))/(pow(r,2)+pow(info[0],2)));
 	
       }
     }

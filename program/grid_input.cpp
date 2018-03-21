@@ -48,8 +48,7 @@ Grid grid_input(char fileName[]){
   
   int nx = ceil((2*NX)/dx);
   int ny = ceil((2*NY)/dy);
-	cout << nx << "," << ny << endl;
-
+	
 	float d;
 	if (dx > dy) {
 		d = dx;
@@ -234,7 +233,6 @@ Grid grid_input(char fileName[]){
     }
   }
   inFile.close(); // close file
-  cout << "\n";
   
   return boundary_input;
 }
