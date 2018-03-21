@@ -69,20 +69,17 @@ def find_diff_from_analytical(analytical, solvedGrid):
 #if you want to test against an analytical use conditions0.txt or conditions1.txt
 boundaryGrid = grid_input('program/conditions0.txt')
 print "Filled in boundary conditions"
-for x in xrange(boundaryGrid.nY()):
-    for y in xrange(boundaryGrid.nX()):
-        print boundaryGrid[y][x],
-    print
-graphGrid(boundaryGrid, "test", "test",0)
+graphGrid(boundaryGrid, "test","test",0)
 #####################################################################
 
 #solver
 #structure is
 #solvedGrid = method(boundaryGrid, n_max, tolerance)
-#solvedGrid = jacobi(boundaryGrid, 5000, 0.00001)
-#solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
+solvedGrid = jacobi(boundaryGrid, 5000, 0.00001)
+solvedGrid = gauss_seidel(boundaryGrid, 5000, 0.00001)
 solvedGrid = SOR(boundaryGrid, 5000, 0.00001, 1.9) 
 #last factor is relaxtion constant, optional - default value is 1.9
+print "Solved successfully"
 #####################################################################
 
 #plotter
@@ -90,7 +87,7 @@ solvedGrid = SOR(boundaryGrid, 5000, 0.00001, 1.9)
 #for now this will make it save the output graph under a file decribing current date and time. 
 #We can eventually make a file name part of the input if necessary
 outputFileName = time.strftime("%Y%m%d-%H%M%S")
-graphGrid(solvedGrid, outputFileName,"Numerical Solution",0)
+graphGrid(solvedGrid, "temp","Numerical Solution",0)
 
 ####################################################################
 #analysis

@@ -48,6 +48,7 @@ Grid grid_input(char fileName[]){
   
   int nx = ceil((2*NX)/dx);
   int ny = ceil((2*NY)/dy);
+	cout << nx << "," << ny << endl;
 
 	float d;
 	if (dx > dy) {
@@ -93,20 +94,9 @@ Grid grid_input(char fileName[]){
 	    if ( pow(data[1]-d/2,2) <=  pow((x-data[2]),2) + pow((y-data[3]),2) && pow(data[1]+d/2,2) >=  pow((x-data[2]),2) + pow((y-data[3]),2)  ){ // if   (r-dr)^2 <= (x-x_0)^2 + (y-y_0)^2 <= (r+dr)^2
 				// this will give a width to the circle and gives a bit of room for approximation.
 	      // here dr = dx/2, it can easily be changed
-				cout << "(" << n << "," << m << ") (" << x << "," << y << ")" << endl;  
 	      boundary_input[n][m] = double(data[4]); // put value for potential into relevant grid-elements
 			}
-	    // else if (! std::isnan(boundary_input[n][m]) ) {
-			// 	cout << "(" << n << "," << m << ")" << boundary_input[n][m];
-			// 	boundary_input[n][m] = NAN;
-			// }
 	  }
-	}
-	for (int i=0; i<ny; i++) {
-		for (int j=0; j<nx; j++) {
-			cout << "(" << j << "," << i << ")" << boundary_input[j][i] << " ";
-		}
-		cout << endl;
 	}
       }
       else if (a == 2){
@@ -141,11 +131,11 @@ Grid grid_input(char fileName[]){
 	
 	// Put data into grid
 	for (int n=0; n<nx; n++){ // itterate over x and y values / over grid elements
-	  float y = dx*((float)n - ((float)nx-1)*0.5); // dx and dy are somehow messed up but this works
+	  float x = dx*((float)n - ((float)nx-1)*0.5); // dx and dy are somehow messed up but this works
 	  //cout << "y= " << y << "\n";
 	  
 	  for (int m=0; m<ny; m++){
-	    float x = dy*((float)m - ((float)ny-1)*0.5);
+	    float y = dy*((float)m - ((float)ny-1)*0.5);
 	    //cout << "x= " << x << "\n";
 
 	    if ( data[1] == data[3] ){ // if we have constant x-value
@@ -187,19 +177,19 @@ Grid grid_input(char fileName[]){
 
 	// Put data into grid
 	for (int n=0; n<nx; n++){ // loop over x and y values / over grid elements
-	  float y = dx*((float)n - ((float)nx-1)*0.5); // dx and dy are somehow messed up but this works
+	  float x = dx*((float)n - ((float)nx-1)*0.5); // dx and dy are somehow messed up but this works
 
 	  for (int m=0; m<ny; m++){
-	    float x = dy*((float)m - ((float)ny-1)*0.5);
+	    float y = dy*((float)m - ((float)ny-1)*0.5);
 
 	    if ( y>= -data[2]-dx/2 && y<= -data[2]+dx/2) { // for upper horizontal side
 	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ // for some reason it did not like it if these were in the previous line
-		boundary_input[n][m] = data[5]; // put potential into relevant grid-elements
+					boundary_input[n][m] = data[5]; // put potential into relevant grid-elements
 	      }
 	    }
-	    else if ( y>= -data[2]+data[4]-dx/2 && y<= -data[2]+data[4]+dx/2 ){ // for upper horizontal side
+	    else if ( y>= -data[2]+data[4]-dx/2 && y<= -data[2]+data[4]+dx/2 ){ // for lower horizontal side
 	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ 
-		boundary_input[n][m] = data[5];
+					boundary_input[n][m] = data[5];
 	      }
 	    }
 	    else if ( x>= data[1]-dx/2 && x<= data[1]+dx/2 ){// for left-most vertical side

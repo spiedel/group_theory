@@ -76,13 +76,13 @@ Grid analytical_fill_0(int nx, int ny, float dx, float dy, Grid grid){
       float y = dy*((float)m - ((float)ny-1)*0.5);
       
       if (0 <= sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) <= (radii[0]+dx/2)){
-	      grid[m][n] = potentials[0];
+	      grid[n][m] = potentials[0];
       }
       else if (radii[0] < sqrt(pow(x,2) + pow(y,2)) && sqrt(pow(x,2) + pow(y,2)) < radii[1]){
-	      grid[m][n] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
+	      grid[n][m] = potentials[1]* ( (log(sqrt(pow(x,2) + pow(y,2))) - log(radii[0]) )/( log(radii[1]) - log(radii[0]) ) );
       }
       if ( (radii[1]-dx/2) <= sqrt(pow(x,2) + pow(y,2)) && (radii[1]+dx/2) >= sqrt(pow(x,2) + pow(y,2)) ){
-	grid[m][n] = potentials[1];
+	grid[n][m] = potentials[1];
       }
     }
   }

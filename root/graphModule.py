@@ -40,6 +40,7 @@ def graphGrid(grid, imgNum, name, graphType=0):
             histo.Fill(float(i)*(xmax-xmin)/grid.nX()+xmin,
                        float(j)*(ymax-ymin)/grid.nY()+ymin,
                        grid[i][j])
+    print "Filled Grid successfully"
     #draw graph
     #to plot contour uncomment next 4 comments
     c = TCanvas("c", "Canvas", 850, 850)

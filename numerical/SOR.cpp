@@ -3,7 +3,7 @@
 // this function will take in a grid with initial boundary conditions and calculate a numerical solution
 
 // header files
-#include "ExampleGrid.h"
+#include "../program/ExampleGrid.h"
 // other stuff to be included
 //#include <iostream> // terminal io
 //#include <fstream> // file io
@@ -31,8 +31,8 @@ Grid SOR(Grid grid, int n_max, double tolerance, double omega=1.9){
 
   
   // grid with initial boundary conditions
-  for ( int j=0; j < ny; j++ ){
-    for ( int k=0; k < nx; k++ ){
+  for ( int j=0; j < nx; j++ ){
+    for ( int k=0; k < ny; k++ ){
       grid_solution[j][k] = grid[j][k];
       
       if ( std::isnan(grid_solution[j][k]) ){

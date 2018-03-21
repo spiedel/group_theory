@@ -3,7 +3,7 @@
 // this function will take in a grid with initial boundary conditions and calculate a numerical solution
 
 // header files
-#include "ExampleGrid.h"
+#include "../program/ExampleGrid.h"
 // other stuff to be included
 //#include <iostream> // terminal io
 //#include <fstream> // file io
@@ -28,8 +28,8 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
   Grid grid_before(nx,ny,dx,dy), grid_after(nx,ny,dx,dy); // grid to contain the intial boundary conditions, grid for n and n+1.
 
   // fill grid with initial boundary conditions
-  for ( int j=0; j < ny; j++ ){
-    for ( int k=0; k < nx; k++ ){
+  for ( int j=0; j < nx; j++ ){
+    for ( int k=0; k < ny; k++ ){
       grid_before[j][k] = grid[j][k];
       
       if ( std::isnan(grid_before[j][k]) ){
@@ -51,7 +51,6 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
     n++;
     // update grid_before to be grid_after for next iteration
     grid_before = grid_after;
-
     // iteration over y
     for ( int j=0; j<nx; j++ ){
       // iteration over x
@@ -92,27 +91,10 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
     }
   }
 
-float diff, maxDiff = 0.;
-  for ( int j=0; j < ny; j++ ){
-    for ( int k=0; k < nx; k++ ){
-      if ( ! std::isnan(grid_before[j][k]) ) {
-        diff = grid_before[j][k] - grid_after[j][k];
-        if (diff < 0) {
-          diff = -diff;
-        }
-
-        if (diff > maxDiff) {
-          maxDiff = diff;
-        }
-      }
-    }
-  }
-
   cout << "Number of iterations needed: " << n << endl;
   printf("Maximum difference is: %.6f\n", err_max);
   //print time taken
   printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-
   return grid_after;
 }
   
