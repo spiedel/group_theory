@@ -42,7 +42,7 @@ Grid jacobi(Grid grid, int n_max, double tolerance){
 
   int kAfter,kBefore,jAfter,jBefore, n=0;
   double err, err_max = 1, current_grid_value, next_grid_value; 
-  double beta=nx/ny, denom = 1/(2*(1+beta*beta));
+  double beta=dx/dy, denom = 1/(2*(1+beta*beta));
 
   while (err_max > tolerance && n < n_max) {
 

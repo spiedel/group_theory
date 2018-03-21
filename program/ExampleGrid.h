@@ -49,16 +49,16 @@ class Grid {
                     m_grid(grid), m_row(row)
                 {}
                 const double& operator[](unsigned col) const
-                { return m_grid.grid()[m_row * m_grid.nX() + col]; }
+                { return m_grid.grid()[m_row * m_grid.nY() + col]; }
 
                 using const_iterator = const double*;
                 using value_type = double;
                 using const_reference = const double&;
                 using size_type = unsigned;
                 const_iterator begin() const noexcept
-                { return &m_grid.grid()[m_row * m_grid.nX()]; }
+                { return &m_grid.grid()[m_row * m_grid.nY()]; }
                 const_iterator end() const noexcept
-                { return &m_grid.grid()[(m_row + 1) * m_grid.nX()]; }
+                { return &m_grid.grid()[(m_row + 1) * m_grid.nY()]; }
         };
         // proxy class for a row
         class Row : public ConstRow {
@@ -73,9 +73,9 @@ class Grid {
                 using iterator = double*;
                 using reference = double&;
                 iterator begin() noexcept
-                { return &const_cast<double&>(m_grid.grid()[m_row * m_grid.nX()]); }
+                { return &const_cast<double&>(m_grid.grid()[m_row * m_grid.nY()]); }
                 iterator end() noexcept
-                { return &const_cast<double&>(m_grid.grid()[(m_row + 1) * m_grid.nX()]); }
+                { return &const_cast<double&>(m_grid.grid()[(m_row + 1) * m_grid.nY()]); }
         };
 
         // return a row (read-write)

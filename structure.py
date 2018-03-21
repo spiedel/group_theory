@@ -12,7 +12,7 @@ if cmd_subfolder not in sys.path:
 #load macros of C++ files
 from ROOT import gROOT
 #format gROOT.LoadMacro("path_from_current_file")
-gROOT.LoadMacro('gridExamples/ExampleGrid.h') 
+gROOT.LoadMacro('program/ExampleGrid.h') 
 gROOT.LoadMacro('program/grid_input.cpp')
 gROOT.LoadMacro('program/analytical_fill_0.cpp')
 gROOT.LoadMacro('program/analytical_fill_1.cpp')
@@ -69,6 +69,11 @@ def find_diff_from_analytical(analytical, solvedGrid):
 #if you want to test against an analytical use conditions0.txt or conditions1.txt
 boundaryGrid = grid_input('program/conditions0.txt')
 print "Filled in boundary conditions"
+for x in xrange(boundaryGrid.nY()):
+    for y in xrange(boundaryGrid.nX()):
+        print boundaryGrid[y][x],
+    print
+graphGrid(boundaryGrid, "test", "test",0)
 #####################################################################
 
 #solver

@@ -49,14 +49,21 @@ Grid grid_input(char fileName[]){
   int nx = ceil((2*NX)/dx);
   int ny = ceil((2*NY)/dy);
 
+	float d;
+	if (dx > dy) {
+		d = dx;
+	}
+	else {
+		d = dy;
+	}
   // initialise grid
-  Grid foo (nx,ny,dx,dy);
+  Grid boundary_input (nx,ny,dx,dy);
 
   
   // fill grid with NAN
   for (int i=0; i<nx; i++){
     for (int j=0; j<ny; j++){
-      foo[j][i] = NAN; // yes, j and i are switched
+      boundary_input[i][j] = NAN;
     }
   }
 
@@ -80,17 +87,26 @@ Grid grid_input(char fileName[]){
 	// Put data into grid
 	for (int n=0; n<nx; n++){ // itterate over x-values
 	  float x = dx*((float)n - ((float)nx-1)*0.5); // x = n*dx - (1/2)*dx*(nx-1)      (nx-1) in order to include 0.
-	  
 	  for (int m=0; m<ny; m++){ // itterate over y-values
 	    float y = dy*((float)m - ((float)ny-1)*0.5);
 
-	    if ( pow(data[1]-dx/2,2) <=  pow((x - data[2]),2) + pow((y - data[3]),2) && pow(data[1]+dx/2,2) >=  pow((x - data[2]),2) + pow((y - data[3]),2)  ){ // if   (r-dr)^2 <= (x-x_0)^2 + (y-y_0)^2 <= (r+dr)^2
-	      // this will give a width to the circle and gives a bit of room for approximation.
+	    if ( pow(data[1]-d/2,2) <=  pow((x-data[2]),2) + pow((y-data[3]),2) && pow(data[1]+d/2,2) >=  pow((x-data[2]),2) + pow((y-data[3]),2)  ){ // if   (r-dr)^2 <= (x-x_0)^2 + (y-y_0)^2 <= (r+dr)^2
+				// this will give a width to the circle and gives a bit of room for approximation.
 	      // here dr = dx/2, it can easily be changed
-
-	      foo[m][n] = data[4]; // put value for potential into relevant grid-elements
-	    }
+				cout << "(" << n << "," << m << ") (" << x << "," << y << ")" << endl;  
+	      boundary_input[n][m] = double(data[4]); // put value for potential into relevant grid-elements
+			}
+	    // else if (! std::isnan(boundary_input[n][m]) ) {
+			// 	cout << "(" << n << "," << m << ")" << boundary_input[n][m];
+			// 	boundary_input[n][m] = NAN;
+			// }
 	  }
+	}
+	for (int i=0; i<ny; i++) {
+		for (int j=0; j<nx; j++) {
+			cout << "(" << j << "," << i << ")" << boundary_input[j][i] << " ";
+		}
+		cout << endl;
 	}
       }
       else if (a == 2){
@@ -134,26 +150,26 @@ Grid grid_input(char fileName[]){
 
 	    if ( data[1] == data[3] ){ // if we have constant x-value
 	      if ( x >= data[1] - dx/2 && x <= data[1] + dx/2 ){ // for x within range
-		if ( y >= y_min - dy/2 && y <= y_max + dy/2 ) { // y_min < y < y_max
-		  foo[m][n] = data[5]; // put potential value into relevant grid-elements
-		}
+					if ( y >= y_min - dy/2 && y <= y_max + dy/2 ) { // y_min < y < y_max
+		  			boundary_input[n][m] = data[5]; // put potential value into relevant grid-elements
+					}
 	      }
 	    }
 	    else if ( data[2] == data[4] ){ // if we have constant y-value
-	      if ( y>= -data[2] - dy/2 && y <= -data[2] + dy/2 ){ // within y range, the grid is flipped so the - sign is necessary
-		if ( x >= x_min -dx/2 && x <= x_max + dx/2) { // x_min < x < x_max
-		  foo[m][n] = data[5]; // put potential value into relevant grid-elements
-		}
+	      if ( y>= -data[2] - dy/2 && y <= -data[2] + dy/2 ){ // within y range, the grid is flipped so the - sign is necessadata[1]
+					if ( x >= x_min -dx/2 && x <= x_max + dx/2) { // x_min < x < x_max
+		  			boundary_input[n][m] = data[5]; // put potential value into relevant grid-elements
+					}
 	      }
 	    }
 	    else { // if it's a straight line		
 	      if ( y + data[2] >= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) - dy/2 && y + data[2] <= ((-data[4] + data[2])/(data[3] - data[1]))*(x - data[1]) + dy/2 ){ // equation for straight line using points
 	       
-		if ( x >= x_min - dx/2 && x <= x_max + dx/2) { // between x-values
-		  if ( y >= y_min - dy/2 && y <= y_max + dy/2 ){ // between y-values
-		    foo[m][n] = data[5]; // put potential value into relevant grid-elements.
-		  }
-		}
+					if ( x >= x_min - dx/2 && x <= x_max + dx/2) { // between x-values
+		  			if ( y >= y_min - dy/2 && y <= y_max + dy/2 ){ // between y-values
+		    			boundary_input[n][m] = data[5]; // put potential value into relevant grid-elements.
+		  			}
+					}
 	      } 
 	    }
 	  }
@@ -178,23 +194,23 @@ Grid grid_input(char fileName[]){
 
 	    if ( y>= -data[2]-dx/2 && y<= -data[2]+dx/2) { // for upper horizontal side
 	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ // for some reason it did not like it if these were in the previous line
-		foo[m][n] = data[5]; // put potential into relevant grid-elements
+		boundary_input[n][m] = data[5]; // put potential into relevant grid-elements
 	      }
 	    }
 	    else if ( y>= -data[2]+data[4]-dx/2 && y<= -data[2]+data[4]+dx/2 ){ // for upper horizontal side
 	      if (x >= data[1]-dx/2 && x <= (data[1] + data[3]+dx/2) ){ 
-		foo[m][n] = data[5];
+		boundary_input[n][m] = data[5];
 	      }
 	    }
 	    else if ( x>= data[1]-dx/2 && x<= data[1]+dx/2 ){// for left-most vertical side
 	      if ( y>= -data[2]-dx/2 && y <= -(data[2] - data[4])+dx/2 ){
-	      foo[m][n] = data[5];
+	      boundary_input[n][m] = data[5];
 	      
 	      }
 	    }
 	    else if ( x>= (data[1]+data[3]-dx/2) && x<= (data[1]+data[3]+dx/2) ){// for right-most vertical side
 	      if ( y>= -data[2]-dx/2 && y <= -(data[2] - data[4])+dx/2 ){
-	      foo[m][n] = data[5];
+	      boundary_input[n][m] = data[5];
 	      }
 	    }
 	  }
@@ -219,7 +235,7 @@ Grid grid_input(char fileName[]){
 	    
 	    if ( x >= -data[1]-dx/2 && x <= -data[1]+dx/2){ // getting coordinate system right
 	      if ( y >= data[2]-dy/2 && y <= data[2]+dx/2){
-		foo[m][n] = data[3];
+		boundary_input[n][m] = data[3];
 	      }
 	    }
 	  }
@@ -230,5 +246,5 @@ Grid grid_input(char fileName[]){
   inFile.close(); // close file
   cout << "\n";
   
-  return foo;
+  return boundary_input;
 }

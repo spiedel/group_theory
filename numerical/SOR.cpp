@@ -42,8 +42,9 @@ Grid SOR(Grid grid, int n_max, double tolerance, double omega=1.9){
   }
 
   int kAfter,kBefore,jAfter,jBefore, n=0;
-  double err, err_max = 1, current_grid_value;
+  double err, err_max = 1, current_grid_value, new_grid_value;
   double beta = dx/dy, denom = 1/(2*(1+beta*beta));
+  cout << beta << " " << denom << " " << omega;
 
   while (err_max > tolerance && n < n_max) {
 
@@ -78,11 +79,13 @@ Grid SOR(Grid grid, int n_max, double tolerance, double omega=1.9){
 
           current_grid_value = grid_solution[j][k];
 	        // if there is no initial boundary condition, fill in grid using equation
-	        grid_solution[j][k]=omega*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
-                  + beta*beta*(grid_solution[j][kAfter]+grid_solution[j][kBefore]))*denom 
+	        new_grid_value=denom*omega*(grid_solution[jAfter][k]+grid_solution[jBefore][k] 
+                  + beta*beta*(grid_solution[j][kAfter]+grid_solution[j][kBefore])) 
                   + (1-omega)*current_grid_value;
-         
-          err = abs(current_grid_value - grid_solution[j][k]);
+          
+          grid_solution[j][k] = new_grid_value;
+          
+          err = abs(current_grid_value - new_grid_value);
           if ( err > err_max ) {
             err_max = err;
           }
